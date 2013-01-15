@@ -1,6 +1,6 @@
 /*global $, define, Backbone*/
 (function (window, undefined) {
-    define(['LoginHelper'], function (LoginHelper) {
+    define([], function () {
         var PhotoModel = Backbone.Model.extend();
 
         var PhotosCollection = Backbone.Collection.extend({

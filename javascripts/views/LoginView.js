@@ -18,11 +18,14 @@
             clickButtonConnect : function () {
                 var number = this.$('.input-login').val();
 
+                $('.w-ui-loading').show();
                 LoginHelper.loginAsync(number).done(function () {
                     this.$el.fadeOut(function () {
                         this.$el.remove();
                         this.trigger('login');
                     }.bind(this));
+                }.bind(this)).always(function () {
+                    $('.w-ui-loading').hide();
                 }.bind(this));
             },
             renderAsync : function () {
@@ -34,12 +37,17 @@
                         id : 'login'
                     }
                 }, function (resp) {
-                    this.$el = $(resp);
+                    this.$el = $(resp).hide();
                     this.delegateEvents();
 
+                    $('.w-ui-loading').show();
                     LoginHelper.loginAsync().done(function () {
                         this.$el.remove();
                         this.trigger('login');
+                    }.bind(this)).fail(function () {
+                        this.$el.show();
+                    }.bind(this)).always(function () {
+                        $('.w-ui-loading').hide();
                     }.bind(this));
 
                     deferred.resolve(this);

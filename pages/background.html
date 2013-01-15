@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Photo Helper Background</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <script type="text/javascript" src="../javascripts/libraries/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="../javascripts/libraries/underscore-1.4.3.js"></script>
     <script type="text/javascript" src="../javascripts/libraries/backbone-0.9.9.js"></script>
@@ -18,14 +19,26 @@
             <hr />
         </div>
         <div class="connect-tip text-secondary">请输入连接验证码连接手机</div>
-        <input class="input-login" type="text"></input>
+        <div>
+          <input class="input-login" type="text"></input>
+        </div>
         <button class="button-connect primary">连接</button>
       </div>
     </div>
 
     <div id="list-ctn">
       <div class="w-ctn" id="photo-list">
-        <ul id="photo-ctn"></ul>
+        <div class="text-thirdly phone-title cf">
+          <div class="phone-name"></div>
+          <div class="link button-logout"></div>
+          <div class="link button-refresh"></div>
+        </div>
+        <ul id="photo-ctn" class="cf"></ul>
+      </div>
+    </div>
+
+    <div id="photo-item">
+      <div id=":w6" class="Am Al editable LW-avf" hidefocus="true" g_editable="true" contenteditable="true" style="direction: ltr; min-height: 85px;" tabindex="1">
       </div>
     </div>
   </body>

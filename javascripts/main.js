@@ -17,7 +17,14 @@
                 url : window.localStorage.getItem('wdj-server-url') + model.url,
                 data : model.data || {},
                 type : methodMap[method],
-                success : options.success,
+                success : function () {
+                    var phoneName = arguments[2].getResponseHeader('WD-Phone-Modal');
+                    if (phoneName) {
+                        window.localStorage.setItem('wdj-phone-name', phoneName);
+                        console.log(phoneName);
+                    }
+                    options.success(arguments[0]);
+                },
                 error : options.error
             });
         };
@@ -40,6 +47,10 @@
             var photoListView = new PhotoListView();
             photoListView.renderAsync().done(function (photoListView) {
                 $('body').append(photoListView.$el);
+            });
+
+            photoListView.on('logout', function () {
+                window.location.reload();
             });
         });
     });

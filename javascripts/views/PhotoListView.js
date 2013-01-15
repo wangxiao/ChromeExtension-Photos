@@ -9,14 +9,39 @@
             className : 'w-photo-item',
             tagName : 'li',
             render : function () {
-                this.$el.append($('<img>').attr({
+                var $img = $('<img>').attr({
                     src : this.model.get('thumbnail_path')
-                }));
+                });
+                this.$el.append($img);
+
+                $img.one('load', function () {
+                    var withLtHeight = $img[0].width > $img[0].height;
+
+                    if (withLtHeight) {
+                        $img.css({
+                            height : 72,
+                            width : $img[0].width * (72 / $img[0].height)
+                        });
+                    } else {
+                        $img.css({
+                            height : $img[0].height * (72 / $img[0].width),
+                            width : 72
+                        });
+                    }
+                });
                 return this;
+            },
+            clickItem : function () {
+                chrome.tabs.create({
+                    url : this.model.get('path')
+                });
+            },
+            events : {
+                'click' : 'clickItem'
             }
         });
 
-        var PhotoList = Backbone.View.extend({
+        var PhotoListView = Backbone.View.extend({
             initialize : function () {
                 this.$el = $('#photo-list');
                 this.delegateEvents();
@@ -42,18 +67,14 @@
                 this.$('#photo-ctn').append(fragment);
             },
             renderPhotos : function () {
+                $('.w-ui-loading').show();
                 this.collection.trigger('update');
 
                 this.collection.on('refresh', function (collection) {
                     this.renderThread();
+                    this.$('.phone-name').html(window.localStorage.getItem('wdj-phone-name'));
+                    $('.w-ui-loading').hide();
                 }, this);
-
-                this.$el.on('scroll', function () {
-                    var ele = this.$el[0];
-                    if (ele.scrollTop + ele.offsetHeight + 30 >= ele.scrollHeight) {
-                        this.renderThread();
-                    }
-                }.bind(this));
             },
             renderAsync : function () {
                 var deferred = $.Deferred();
@@ -67,15 +88,37 @@
                     this.$el = $(resp);
                     this.delegateEvents();
 
+                    this.$('.phone-name').html(window.localStorage.getItem('wdj-phone-name'));
+
                     this.renderPhotos();
+
+                    this.$el.on('scroll', function () {
+                        var ele = this.$el[0];
+                        if (ele.scrollTop + ele.offsetHeight + 30 >= ele.scrollHeight) {
+                            this.renderThread();
+                        }
+                    }.bind(this));
 
                     deferred.resolve(this);
                 }.bind(this));
 
                 return deferred.promise();
+            },
+            clickButtonRefresh : function () {
+                this.$('#photo-ctn').empty();
+                this.renderPhotos();
+            },
+            clickButtonLogout : function () {
+                window.localStorage.setItem('wdj-server-url', '');
+                window.localStorage.setItem('wdj-phone-name', '');
+                this.trigger('logout');
+            },
+            events: {
+                'click .button-logout' : 'clickButtonLogout',
+                'click .button-refresh' : 'clickButtonRefresh'
             }
         });
 
-        return PhotoList;
+        return PhotoListView;
     });
 }(this));
