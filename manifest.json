@@ -1,0 +1,23 @@
+{
+  "name": "__MSG_EXT_NAME__",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "__MSG_EXT_DESC__",
+  "default_locale" : "zh_CN",
+  "permissions": [
+    "contextMenus"
+  ],
+  "background" : {
+    "page" : "pages/background.html"
+  },
+  "browser_action": {
+    "default_icon": "images/icons/icon19.png",
+    "default_popup": "pages/popup.html",
+    "default_title": "__MSG_EXT_NAME__"
+  },
+  "icons": {
+      "256": "images/icons/icon256.png",
+      "16": "images/icons/icon16.png",
+      "48": "images/icons/icon48.png"
+   }
+}

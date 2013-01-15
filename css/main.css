@@ -1,0 +1,432 @@
+/********************************************************************************
+ * This is the CSS declaration of CSS reset, include HTML5 tags reset
+ * 
+ * @author wangye.zhao@wandoujia.com
+ ********************************************************************************/
+/********************************************************************************
+ * HTML5 CSS Reset
+ ********************************************************************************/
+html, body, div, button, textarea, input,
+span, object, iframe, h1, h2, h3, h4, h5,
+h6, p, blockquote, pre, abbr, address, cite,
+code, del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var, b, i, dl, dt,
+dd, ol, ul, li, fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+  border: 0;
+  font-size: 100%;
+  font-style: normal;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+nav, ul, ol, menu {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+  content: '';
+  content: none;
+}
+
+a {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+ins {
+  background-color: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background-color: #ff9;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+del {
+  text-decoration: line-through;
+}
+
+abbr[title], dfn[title] {
+  border-bottom: 1px dotted #000;
+  cursor: help;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #d6d6d6;
+  display: block;
+  height: 1px;
+  margin: 1em 0;
+  padding: 0;
+}
+
+input, select {
+  vertical-align: middle;
+}
+
+:focus {
+  outline: none;
+}
+
+html,
+body {
+  cursor: default;
+  overflow: hidden;
+  -webkit-user-select: none;
+}
+
+/********************************************************************************
+ * This is the CSS declaration of layout
+ * 
+ * @author wangye.zhao@wandoujia.com
+ ********************************************************************************/
+/********************************************************************************
+ * Layout
+ ********************************************************************************/
+.cf {
+  display: block;
+}
+.cf:after {
+  content: '.';
+  clear: both;
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+
+.hbox,
+.vbox {
+  display: -webkit-box;
+  -webkit-box-align: stretch;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -webkit-box-pack: start;
+}
+
+.hbox {
+  -webkit-box-orient: horizontal;
+}
+
+.vbox {
+  -webkit-box-orient: vertical;
+}
+
+.box-reverse {
+  -webkit-box-direction: reverse;
+}
+
+/********************************************************************************
+ * This is the CSS declaration of typography
+ * 
+ * @author wangye.zhao@wandoujia.com
+ ********************************************************************************/
+/********************************************************************************
+ * Typography
+ ********************************************************************************/
+body,
+button,
+input,
+textarea {
+  color: #000;
+  font: 12px/1.5em Arial, Helvetica, Microsoft Yahei, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: #3c7800;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:active {
+  color: #2c5300;
+}
+a[disabled], a[disabled]:hover, a[disabled]:active {
+  cursor: default;
+  text-decoration: none;
+  opacity: .4;
+  pointer-events: none;
+}
+
+h1 {
+  font-size: 16px;
+}
+
+h2 {
+  font-size: 14px;
+}
+
+h3 {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.link {
+  color: #3c7800;
+  cursor: pointer;
+}
+.link:hover {
+  text-decoration: underline;
+}
+.link:active {
+  color: #2c5300;
+}
+.link[disabled], .link[disabled]:hover, .link[disabled]:active {
+  cursor: default;
+  text-decoration: none;
+  opacity: .4;
+  pointer-events: none;
+}
+
+.help {
+  cursor: help;
+}
+
+.text-primary {
+  color: #3c7800;
+}
+
+.text-secondary {
+  color: #555555;
+}
+
+.text-thirdly {
+  color: #999999;
+}
+
+.text-warning {
+  color: #ff5404;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.wc {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+
+/********************************************************************************
+ * This is the CSS declaration of form elements
+ * 
+ * @author wangye.zhao@wandoujia.com
+ ********************************************************************************/
+/********************************************************************************
+ * Button
+ ********************************************************************************/
+input[type="submit"],
+button {
+  background-image: -webkit-linear-gradient(-90deg, #f3f3f3 0%, #e9e9e9 100%);
+  border: 1px #999999 solid;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 0 white;
+  color: rgba(0, 0, 0, 0.9);
+  height: 26px;
+  min-width: 60px;
+  padding: 3px 10px;
+  text-shadow: 0 1px 0 white;
+  vertical-align: middle;
+}
+input[type="submit"].min,
+button.min {
+  height: 24px;
+  padding: 2px 10px;
+}
+input[type="submit"].max,
+button.max {
+  font-size: 14px;
+  height: 32px;
+  padding: 6px 15px;
+}
+input[type="submit"].grand,
+button.grand {
+  font-size: 14px;
+  height: 38px;
+  padding: 9px 15px;
+  min-width: 80px;
+}
+input[type="submit"]:enabled:hover:not(.active):not(:active), input[type="submit"]:enabled:focus,
+button:enabled:hover:not(.active):not(:active),
+button:enabled:focus {
+  background-image: -webkit-linear-gradient(-90deg, #f8f8f8 0%, #f0f0f0 100%);
+  color: #000;
+}
+input[type="submit"]:enabled:active, input[type="submit"].active,
+button:enabled:active,
+button.active {
+  background-image: -webkit-linear-gradient(-90deg, #dadada 0%, #ebebeb 100%);
+  box-shadow: none;
+  color: #000;
+}
+input[type="submit"]:disabled,
+button:disabled {
+  opacity: 0.4;
+}
+input[type="submit"].primary,
+button.primary {
+  background-image: -webkit-linear-gradient(-90deg, #63c100 0%, #46a100 100%);
+  border-color: #2c8e00;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+input[type="submit"].primary:enabled:hover:not(.active):not(:active), input[type="submit"].primary:enabled:focus,
+button.primary:enabled:hover:not(.active):not(:active),
+button.primary:enabled:focus {
+  background-image: -webkit-linear-gradient(-90deg, #6bc420 0%, #52ab07 100%);
+  color: white;
+}
+input[type="submit"].primary:enabled:active, input[type="submit"].primary.active,
+button.primary:enabled:active,
+button.primary.active {
+  background-image: -webkit-linear-gradient(-90deg, #419400 0%, #5baf00 100%);
+  border-color: #298300;
+  color: white;
+}
+input[type="submit"].secondary,
+button.secondary {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0, #e32119), color-stop(1, #c90400));
+  border-color: #720403;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+input[type="submit"].secondary:enabled:hover:not(.active):not(:active), input[type="submit"].secondary:enabled:focus,
+button.secondary:enabled:hover:not(.active):not(:active),
+button.secondary:enabled:focus {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0, #f51d11), color-stop(1, #dc0000));
+  color: white;
+}
+input[type="submit"].secondary:enabled:active, input[type="submit"].secondary.active,
+button.secondary:enabled:active,
+button.secondary.active {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0, #b10500), color-stop(1, #cb211b));
+  color: white;
+}
+input[type="submit"] + button,
+input[type="submit"] + .w-ui-buttongroup,
+button + button,
+button + .w-ui-buttongroup {
+  margin-left: 4px;
+}
+
+body {
+    height: 340px;
+    width: 250px;
+}
+
+.w-ctn {
+    background-color: #e5e5e5;
+    background-image: url(../images/bg.png);
+    height: 100%;
+    overflow: hidden;
+    text-align: center;
+    width: 250px;
+}
+
+#photo-list {
+    overflow-y: auto; 
+}
+
+.icon {
+  display: block;
+  height: 64px;
+  margin: 20px auto 30px auto;
+  width: 64px;
+}
+
+.title-ctn {
+    -webkit-box-align: center;
+}
+
+.title-ctn .title {
+    text-align: center;
+    -webkit-box-flex: 1;
+}
+
+.title-ctn hr {
+    box-shadow: 0 1px 0 #fff;
+    height: 0;
+    margin: 0 10px;
+    width: 60px;
+}
+
+.connect-tip {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.input-login {
+    background-color: #f5f5f5;
+    border: 1px #ddd solid;
+    box-shadow: 0 1px 20px -2px rgba(0,0,0,.1) inset;
+    height: 30px;
+    margin: 15px 0;
+    width: 200px;
+}
+
+.button-connect {
+    margin-bottom: 20px;
+}
+
+#photo-ctn {
+  padding: 7px;
+  text-align: left;
+}
+
+#photo-ctn li {
+  border: 1px #e5e5e5 solid;
+  display: inline-block;
+  height: 72px;
+  width: 72px;
+  -webkit-transition: -webkit-transform .2s;
+}
+
+#photo-ctn li:hover {
+  cursor: pointer;
+  -webkit-transform: scale(1.05);
+}
+
+#photo-ctn li img {
+  height: 72px;
+  width: 72px;
+}
+
+#photo-ctn li:nth-child(3n + 2),
+#photo-ctn li:nth-child(3n + 3) {
+  margin-left: 7px;
+}

@@ -1,0 +1,10 @@
+{
+    "EXT_NAME" : {
+        "message" : "Wandoujia Phone Photos",
+        "description" : "Extension name"
+    },
+    "EXT_DESC" : {
+        "message" : "Manage photos on your Android. ",
+        "description" : "Extension description"
+    }
+}

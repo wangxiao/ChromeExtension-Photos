@@ -1,0 +1,10 @@
+{
+    "EXT_NAME" : {
+        "message" : "豌豆荚手机图片",
+        "description" : "Extension name"
+    },
+    "EXT_DESC" : {
+        "message" : "帮助你管理手机上的图片",
+        "description" : "Extension description"
+    }
+}
