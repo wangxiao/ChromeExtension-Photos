@@ -5,7 +5,7 @@
   "description": "__MSG_EXT_DESC__",
   "default_locale" : "zh_CN",
   "permissions": [
-    "contextMenus"
+    "contextMenus", "cookies", "*://*.wandoujia.com/*"
   ],
   "background" : {
     "page" : "pages/background.html"
@@ -29,5 +29,6 @@
   // ],
   "web_accessible_resources" : [
     "images/*.png"
-  ]
+  ],
+  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
 }

@@ -3,12 +3,9 @@
     define([], function () {
 
         var localStorage = window.localStorage;
-        var chrome = window.chrome;
-
-        var server = localStorage.getItem('wdj-server-url');
 
         var CONST = {
-            PORT : '8080',
+            PORT : '10208',
             PROTOCPL : 'http://'
         };
 
@@ -43,19 +40,23 @@
             return ip;
         };
 
-        var loginAsync = function () {
+        var loginAsync = function (authCode) {
             var deferred = $.Deferred();
-
+            var server = CONST.PROTOCPL + parseVerifiedCodeAsync(authCode) + ':' + CONST.PORT;
             $.ajax({
-                url : server + '/',
-                success : function (resp) {
-                    localStorage.setItem('wdj-server-url', server);
-                    chrome.extension.sendMessage({
-                        action : 'logined',
-                        data : {
-                            server : server
-                        }
-                    });
+                url : server + '/api/v1/directive/auth',
+                data : {
+                    authcode :  authCode,
+                    client_type : 4
+                },
+                crossDomain : true,
+                timeout : 1000 * 10,
+                xhrFields : {
+                    withCredentials : true
+                },
+                success : function (resp, status, xhr) {
+                    console.log(xhr.getAllResponseHeaders());
+                    localStorage.setItem('wdj-server-authCode', authCode);
                     deferred.resolve(resp);
                 },
                 error : deferred.reject
@@ -68,24 +69,24 @@
             loginAsync : function (number) {
                 var deferred = $.Deferred();
 
-                if (server) {
-                    loginAsync().done(deferred.resolve).fail(deferred.reject);
+                var authCode = localStorage.getItem('wdj-server-authCode');
+
+                if (authCode || number) {
+                    loginAsync(number || authCode).done(deferred.resolve).fail(deferred.reject);
                 } else {
-                    if (number) {
-                        server = CONST.PROTOCPL + parseVerifiedCodeAsync(number) + ':' + CONST.PORT;
-                        loginAsync().done(deferred.resolve).fail(function (resp) {
-                            server = undefined;
-                            deferred.reject(resp);
-                        });
-                    } else {
-                        deferred.reject();
-                    }
+                    deferred.reject();
                 }
 
                 return deferred.promise();
             },
-            getServerURL : function () {
-                return server;
+            logout : function () {
+                window.localStorage.setItem('wdj-server-authCode', '');
+            },
+            getServerURL :  function () {
+                return CONST.PROTOCPL + parseVerifiedCodeAsync(localStorage.getItem('wdj-server-authCode')) + ':' + CONST.PORT;
+            },
+            getAuthCode : function () {
+                return localStorage.getItem('wdj-server-authCode');
             }
         };
     });

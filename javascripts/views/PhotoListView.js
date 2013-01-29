@@ -1,6 +1,10 @@
 /*global $, define, Backbone*/
 (function (window, undefined) {
-    define(['collections/PhotosCollection'], function (PhotosCollection) {
+    define([
+        'collections/PhotosCollection'
+    ], function (
+        PhotosCollection
+    ) {
 
         var document = window.document;
         var chrome = window.chrome;
@@ -32,12 +36,23 @@
                 return this;
             },
             clickItem : function () {
-                chrome.tabs.create({
-                    url : this.model.get('path')
+                chrome.extension.sendMessage({
+                    action : 'preview',
+                    data : {
+                        id : this.model.id
+                    }
                 });
             },
+            dragstart : function (evt) {
+                var $img = $('<img>').attr({
+                    src : this.model.get('path')
+                });
+
+                evt.target = $img[0];
+            },
             events : {
-                'click' : 'clickItem'
+                'click' : 'clickItem',
+                'dragstart' : 'dragstart'
             }
         });
 
@@ -109,9 +124,12 @@
                 this.renderPhotos();
             },
             clickButtonLogout : function () {
-                window.localStorage.setItem('wdj-server-url', '');
-                window.localStorage.setItem('wdj-phone-name', '');
-                this.trigger('logout');
+                chrome.extension.sendMessage({
+                    action : 'logout',
+                }, function () {
+                    console.log(123);
+                    window.location.reload();
+                });
             },
             events: {
                 'click .button-logout' : 'clickButtonLogout',

@@ -1,18 +1,23 @@
 /*global $, define, Backbone*/
 (function (window, undefined) {
     define([], function () {
+        var chrome = window.chrome;
+
         var PhotoModel = Backbone.Model.extend();
 
         var PhotosCollection = Backbone.Collection.extend({
-            url : '/api/v1/resource/photos/',
             model : PhotoModel,
             initialize : function () {
                 this.on('update', function () {
-                    this.fetch({
-                        success : function (collection) {
-                            collection.trigger('refresh', collection);
-                        }
-                    });
+                    chrome.extension.sendMessage({
+                        action : 'fetchPhotoList'
+                    }, function (resp) {
+                        this.update(resp, {
+                            parse : true
+                        });
+
+                        this.trigger('refresh', this);
+                    }.bind(this));
                 }, this);
             }
         });
