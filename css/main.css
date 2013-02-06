@@ -1,6 +1,6 @@
 /********************************************************************************
  * This is the CSS declaration of CSS reset, include HTML5 tags reset
- * 
+ *
  * @author wangye.zhao@wandoujia.com
  ********************************************************************************/
 /********************************************************************************
@@ -104,9 +104,68 @@ body {
   -webkit-user-select: none;
 }
 
+::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
+
+::-webkit-scrollbar-track:vertical,
+::-webkit-scrollbar-track:horizontal,
+::-webkit-scrollbar-thumb:vertical,
+::-webkit-scrollbar-thumb:horizontal {
+    border-style: solid;
+    border-color: transparent;
+}
+
+::-webkit-scrollbar-track:vertical {
+    background-clip: padding-box;
+    background-color: transparent;
+    border-left-width: 3px;
+    border-right-width: 0;
+}
+
+
+::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+    background-color: rgba(0, 0, 0, .2);
+    min-height: 28px;
+    padding-top: 100px;
+    -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset 0 -1px 0 rgba(0, 0, 0, .07);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, .4);
+    -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, .25);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: rgba(0, 0, 0, .5);
+    -webkit-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .35);
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    border-width: 0;
+    border-left-width: 3px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+    border-width: 0;
+    border-top-width: 3px;
+}
+
+::-webkit-scrollbar-track:hover {
+    background-color: rgba(0, 0, 0, .05);
+    -webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .1);
+}
+
+::-webkit-scrollbar-track:active {
+    background-color: rgba(0, 0, 0, .05);
+    -webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .14), inset -1px -1px 0 rgba(0, 0, 0, .07);
+}
+
 /********************************************************************************
  * This is the CSS declaration of layout
- * 
+ *
  * @author wangye.zhao@wandoujia.com
  ********************************************************************************/
 /********************************************************************************
@@ -146,7 +205,7 @@ body {
 
 /********************************************************************************
  * This is the CSS declaration of typography
- * 
+ *
  * @author wangye.zhao@wandoujia.com
  ********************************************************************************/
 /********************************************************************************
@@ -242,7 +301,7 @@ h3 {
 
 /********************************************************************************
  * This is the CSS declaration of form elements
- * 
+ *
  * @author wangye.zhao@wandoujia.com
  ********************************************************************************/
 /********************************************************************************
@@ -454,7 +513,7 @@ body {
     height: 100%;
     overflow: hidden;
     text-align: center;
-    width: 234px;
+    width: 245px;
 }
 
 .w-ctn .w-ui-loading {
@@ -462,7 +521,7 @@ body {
 }
 
 #photo-list {
-    overflow-y: auto; 
+    overflow-y: auto;
 }
 
 .icon {
@@ -495,6 +554,14 @@ body {
     text-shadow: 0 1px 0 #fff;
 }
 
+.qr-ctn {
+    background-color: #e7e7e7;
+    border: 1px #b2b2b2 solid;
+    border-radius: 5px;
+    height: 50px;
+    width: 100%;
+}
+
 .input-login {
     background-color: #f5f5f5;
     border: 1px #ddd solid;
@@ -502,17 +569,16 @@ body {
                   0 1px 0 #fff;
     height: 30px;
     font-size: 14px;
-    margin: 15px 0;
     padding: 0 5px;
-    width: 160px;
+    -webkit-box-flex: 1;
+}
+
+.button-connect {
+    width: 95px;
 }
 
 .input-login:focus {
     background-color: #fff;
-}
-
-.button-connect {
-    margin-bottom: 20px;
 }
 
 #photo-ctn {

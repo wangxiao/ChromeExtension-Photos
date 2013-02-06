@@ -4,39 +4,68 @@
         baseUrl : '../javascripts/'
     });
 
-    require(['LoginHelper'], function (LoginHelper) {
+    require(['LoginHelper', 'BackendSocket'], function (LoginHelper, BackendSocket) {
         var localStorage = window.localStorage;
         var document = window.document;
         var chrome = window.chrome;
         var alert = window.alert;
+        var WebSocket = window.WebSocket;
 
-        // var clickHandler = function () {
-        //     var imgInfo = arguments[0];
+        var clickHandler = function (data) {
+            $.ajax({
+                url : LoginHelper.getServerURL() + '/api/v1/directive/photos/download',
+                xhrFields: {
+                    withCredentials : true
+                },
+                data : {
+                    url : data.srcUrl
+                },
+                success : function () {
+                    alert('保存成功');
+                },
+                error : function () {
+                    alert('保存失败');
+                }
+            });
+        };
 
-        //     $.ajax({
-        //         url : localStorage.getItem('wdj-server-url') + '/api/v1/directive/photos/download',
-        //         data : {
-        //             url : imgInfo.srcUrl
-        //         },
-        //         success : function () {
-        //             alert('保存成功');
-        //         },
-        //         error : function () {
-        //             alert('保存失败');
-        //         }
-        //     });
-        // };
-
-        // chrome.contextMenus.create({
-        //     type : 'normal',
-        //     id : 'temp',
-        //     title : '保存到手机',
-        //     contexts : ['image'],
-        //     onclick : clickHandler
-        // });
+        chrome.contextMenus.create({
+            type : 'normal',
+            id : 'temp',
+            title : '保存到手机',
+            contexts : ['image'],
+            onclick : clickHandler
+        });
 
         var isLogin = false;
-        var photos;
+        var photos = [];
+
+        var handler = function (msg) {
+            if (msg.type === 'photos.add') {
+                _.each(msg.data, function (item) {
+                    $.ajax({
+                        url : LoginHelper.getServerURL() + '/api/v1/resource/photos/' + item,
+                        xhrFields: {
+                            withCredentials : true
+                        },
+                        success : function (resp) {
+                            photos.unshift(resp);
+                        }
+                    });
+                });
+            } else if (msg.type === 'photos.remove') {
+                _.each(msg.data, function (item) {
+                    var target = _.find(photos, function (photo) {
+                        return photo.id === item;
+                    });
+
+                    if (target !== undefined) {
+                        var index = photos.indexOf(target);
+                        photos.splice(index, 1);
+                    }
+                });
+            }
+        };
 
         chrome.extension.onMessage.addListener(function (request, sender, callback) {
             var action = request.action;
@@ -55,6 +84,9 @@
             case 'login':
                 LoginHelper.loginAsync(data.authCode).done(function () {
                     isLogin = true;
+                    BackendSocket.init().on('message', function (data) {
+                        handler();
+                    });
                     callback(true);
                 }).fail(function () {
                     isLogin = false;
@@ -70,7 +102,7 @@
                 callback(isLogin);
                 break;
             case 'fetchPhotoList':
-                if (photos) {
+                if (photos.length > 0) {
                     callback(photos);
                 } else {
                     $.ajax({
@@ -90,7 +122,7 @@
                 break;
             case 'preview':
                 chrome.tabs.create({
-                    url : 'http://192.168.100.24:3000/?ac=' + LoginHelper.getAuthCode() + '#/photos?preview=' + data.id
+                    url : 'http://next.wandoujia.com/?ac=' + LoginHelper.getAuthCode() + '#/photos?preview=' + data.id
                 });
                 break;
             }
@@ -100,6 +132,9 @@
 
         LoginHelper.loginAsync().done(function () {
             isLogin = true;
+            BackendSocket.init().on('message', function (data) {
+                handler(data);
+            });
         }).fail(function () {
             isLogin = false;
         });

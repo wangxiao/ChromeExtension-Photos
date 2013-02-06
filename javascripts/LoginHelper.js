@@ -82,6 +82,9 @@
             logout : function () {
                 window.localStorage.setItem('wdj-server-authCode', '');
             },
+            getServerHost : function () {
+                return parseVerifiedCodeAsync(localStorage.getItem('wdj-server-authCode')) + ':' + CONST.PORT;
+            },
             getServerURL :  function () {
                 return CONST.PROTOCPL + parseVerifiedCodeAsync(localStorage.getItem('wdj-server-authCode')) + ':' + CONST.PORT;
             },
