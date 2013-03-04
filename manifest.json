@@ -3,7 +3,7 @@
   "version": "1.0",
   "manifest_version": 2,
   "description": "__MSG_EXT_DESC__",
-  "default_locale" : "zh_CN",
+  "default_locale" : "en",
   "permissions": [
     "contextMenus", "cookies", "*://*.wandoujia.com/*"
   ],

@@ -405,9 +405,9 @@ button + .w-ui-buttongroup {
 
 body {
     background-image: url(../images/bg.png);
-    height: 340px;
     margin: 7px;
     width: 234px;
+    height: 340px;
 }
 
 .w-ui-loading {
@@ -527,7 +527,7 @@ body {
 .icon {
   display: block;
   height: 64px;
-  margin: 20px auto 30px auto;
+  margin: 10px auto 5px auto;
   width: 64px;
 }
 
@@ -545,7 +545,7 @@ body {
     box-shadow: 0 1px 0 #fff;
     height: 0;
     margin: 0 10px;
-    width: 55px;
+    width: 47px;
 }
 
 .connect-tip {
@@ -558,8 +558,7 @@ body {
     background-color: #e7e7e7;
     border: 1px #b2b2b2 solid;
     border-radius: 5px;
-    height: 50px;
-    width: 100%;
+    height: 140px;
 }
 
 .input-login {
@@ -567,14 +566,14 @@ body {
     border: 1px #ddd solid;
     box-shadow: 0 1px 2px -2px rgba(0,0,0,.1) inset,
                   0 1px 0 #fff;
-    height: 30px;
-    font-size: 14px;
-    padding: 0 5px;
+    height: 25px;
+    font-size: 12px;
+    padding: 0 4px;
     -webkit-box-flex: 1;
 }
 
 .button-connect {
-    width: 95px;
+    width: 80px;
 }
 
 .input-login:focus {
@@ -653,3 +652,20 @@ body {
 #photo-ctn li:nth-child(3n + 3) {
   margin-left: 9px;
 }
+
+.loading{background:url('../images/gif_loading.gif') no-repeat scroll 50% 50%;}
+
+/* CSS 样式模块化 */
+.gray8{color:#888;}
+.db{display: block;}
+.dib{display: inline-block;}
+.bc{margin-left:auto;margin-right:auto;}
+.w75{width: 75px;}
+.ml5{margin-left: 5px;}
+.mt5{margin-top: 5px;}
+.ml10{margin-left: 10px;}
+.ml15{margin-left: 15px;}
+.mb15{margin-bottom: 15px;}
+.mt15{margin-top: 15px;}
+.w180{width: 180px;}
+

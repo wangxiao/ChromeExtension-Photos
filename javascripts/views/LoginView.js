@@ -2,7 +2,6 @@
 (function (window, undefined) {
     define([], function () {
         var chrome = window.chrome;
-
         var LoginView = Backbone.View.extend({
             doLogin : function (authCode) {
                 if (authCode) {

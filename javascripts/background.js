@@ -84,9 +84,7 @@
             case 'login':
                 LoginHelper.loginAsync(data.authCode).done(function () {
                     isLogin = true;
-                    BackendSocket.init().on('message', function (data) {
-                        handler();
-                    });
+                    BackendSocket.init().on('message',handler);
                     callback(true);
                 }).fail(function () {
                     isLogin = false;

@@ -1,10 +1,15 @@
 {
     "EXT_NAME" : {
-        "message" : "Wandoujia Phone Photos",
+        "message" : "SnapPea Photos",
         "description" : "Extension name"
     },
     "EXT_DESC" : {
-        "message" : "Manage photos on your Android. ",
+        "message" : "Your photos,in your web browser.Message,contacts,and apps coming soon.",
         "description" : "Extension description"
-    }
+    },
+    "login_title":{"message":"SnapPea Photos"},
+    "login_passBg":{"message":"Passcode..."},
+    "login_login":{"message":"Login"},
+    "login_howToGet":{"message":"Where's my passcode?"},
+    "login_des":{"message":"You should install SnapPea on your phone before login.It's free."}    
 }

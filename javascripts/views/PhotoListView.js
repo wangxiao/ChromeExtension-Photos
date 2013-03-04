@@ -16,6 +16,9 @@
                 var $img = $('<img>').attr({
                     src : this.model.get('thumbnail_path')
                 });
+                
+                //增加loading背景图
+                this.$el.addClass('loading');
                 this.$el.append($img);
 
                 $img.one('load', function () {
@@ -60,8 +63,8 @@
             initialize : function () {
                 this.$el = $('#photo-list');
                 this.delegateEvents();
-
                 this.collection = new PhotosCollection();
+
             },
             renderThread : function () {
                 var fragment = document.createDocumentFragment();
@@ -127,8 +130,11 @@
                 chrome.extension.sendMessage({
                     action : 'logout',
                 }, function () {
-                    console.log(123);
-                    window.location.reload();
+
+                    //直接刷新页面会变白，所以改为关闭。
+                    //window.location.reload();
+                    window.close();
+
                 });
             },
             events: {
