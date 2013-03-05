@@ -6,10 +6,11 @@
     "EXT_DESC" : {
         "message" : "帮助你管理手机上的图片",
         "description" : "Extension description"
-    },
-    "login_title":{"message":"豌豆荚手机图片"},
-    "login_passBg":{"message":"请输入连接验证码..."},
-    "login_login":{"message":"连接手机"},
-    "login_howToGet":{"message":"如何获取连接验证码？"},
-    "login_des":{"message":"您也可以直接免费安装豌豆荚到手机上。"}
+    }
+    // ,
+    // "login_title":{"message":"豌豆荚手机图片"},
+    // "login_passBg":{"message":"请输入连接验证码..."},
+    // "login_login":{"message":"连接手机"},
+    // "login_howToGet":{"message":"如何获取连接验证码？"},
+    // "login_des":{"message":"您也可以直接免费安装豌豆荚到手机上。"}
 }
