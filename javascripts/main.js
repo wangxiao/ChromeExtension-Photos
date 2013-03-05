@@ -40,6 +40,11 @@
                     $('.i18n-login').text(g("login_login"));
                     $('.i18n-htg').text(g("login_howToGet"));
                     $('.i18n-des').text(g("login_des"));
+
+                    //点图片，打开google play地址
+                    $('#g-play-img').on('click',function(){
+                        chrome.tabs.create({url : 'https://play.google.com/store/apps/details?id=com.snappea'});
+                    });
                 });
 
                 loginView.once('login', function () {
