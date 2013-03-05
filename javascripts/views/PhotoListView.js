@@ -17,8 +17,9 @@
                     src : this.model.get('thumbnail_path')
                 });
                 
-                //增加loading背景图
+                //增加loading背景图，可能会增加性能问题
                 this.$el.addClass('loading');
+                
                 this.$el.append($img);
 
                 $img.one('load', function () {

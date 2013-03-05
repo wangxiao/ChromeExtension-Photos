@@ -58,7 +58,7 @@
     var PhotoModel = Backbone.Model.extend();
 
     var PhotosCollection = Backbone.Collection.extend({
-        url : '/api/v1/resource/photos/',
+        url : '/api/v1/resource/photos/?t='+(new Date().valueOf()),
         model : PhotoModel,
         initialize : function () {
             this.on('update', function () {

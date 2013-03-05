@@ -55,9 +55,12 @@
                     withCredentials : true
                 },
                 success : function (resp, status, xhr) {
-                    console.log(xhr.getAllResponseHeaders());
                     localStorage.setItem('wdj-server-authCode', authCode);
                     deferred.resolve(resp);
+                    if(resp){
+                        resp = JSON.parse(resp);
+                        localStorage.setItem('wdj-phone-name',resp.phone_model);
+                    };
                 },
                 error : deferred.reject
             });
@@ -82,6 +85,7 @@
             logout : function () {
                 window.localStorage.setItem('wdj-server-authCode', '');
             },
+
             getServerHost : function () {
                 return parseVerifiedCodeAsync(localStorage.getItem('wdj-server-authCode')) + ':' + CONST.PORT;
             },

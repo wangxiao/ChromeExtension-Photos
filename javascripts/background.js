@@ -92,6 +92,7 @@
                 });
                 break;
             case 'logout':
+                photos = [];
                 LoginHelper.logout();
                 isLogin = false;
                 callback();
@@ -104,7 +105,7 @@
                     callback(photos);
                 } else {
                     $.ajax({
-                        url : LoginHelper.getServerURL() + '/api/v1/resource/photos/',
+                        url : LoginHelper.getServerURL() + '/api/v1/resource/photos/?t='+(new Date().valueOf()),
                         xhrFields: {
                             withCredentials : true
                         },

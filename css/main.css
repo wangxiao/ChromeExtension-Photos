@@ -636,6 +636,7 @@ body {
 #photo-list .phone-title .phone-name {
   float: left;
   margin-right: 5px;
+  margin-left: 5px;
 }
 
 #photo-ctn li {
@@ -656,10 +657,15 @@ body {
 .loading{background:url('../images/gif_loading.gif') no-repeat scroll 50% 50%;}
 
 /* CSS 样式模块化 */
+.error{color: #F00;}
 .hand{cursor:pointer;}
 .gray8{color:#888;}
+
+/*display相关*/
 .db{display: block;}
+.dh{display: hidden;}
 .dib{display: inline-block;}
+
 .bc{margin-left:auto;margin-right:auto;}
 .w75{width: 75px;}
 .ml5{margin-left: 5px;}

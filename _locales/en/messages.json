@@ -10,6 +10,7 @@
     "login_title":{"message":"SnapPea Photos"},
     "login_passBg":{"message":"Passcode..."},
     "login_login":{"message":"Login"},
+    "login_error":{"message":"Error,please try again!"},
     "login_howToGet":{"message":"Where's my passcode?"},
     "login_htg_url":{"message":"http://next.wandoujia.com/#/portal"},    
     "login_des":{"message":"You should install SnapPea on your phone before login.It's free."},

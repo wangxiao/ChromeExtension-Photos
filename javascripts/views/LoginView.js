@@ -6,12 +6,16 @@
             doLogin : function (authCode) {
                 if (authCode) {
                     $('.w-ui-loading').show();
+                    this.$el.hide();
+
                     chrome.extension.sendMessage({
                         action : 'login',
                         data : {
                             authCode : authCode
                         }
                     }, function (resp) {
+
+                        //监测登陆
                         if (resp) {
                             this.$el.fadeOut(function () {
                                 this.remove();
@@ -20,6 +24,8 @@
                         } else {
                             $('.w-ui-loading').hide();
                             this.$('.input-login').focus();
+                            this.$el.show();
+                            $('.i18n-error').show();
                         }
                     }.bind(this));
                 } else {
