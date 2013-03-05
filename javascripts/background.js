@@ -41,6 +41,7 @@
         var photos = [];
 
         var handler = function (msg) {
+           
             if (msg.type === 'photos.add') {
                 _.each(msg.data, function (item) {
                     $.ajax({
@@ -55,6 +56,7 @@
                 });
             } else if (msg.type === 'photos.remove') {
                 _.each(msg.data, function (item) {
+
                     var target = _.find(photos, function (photo) {
                         return photo.id === item;
                     });
