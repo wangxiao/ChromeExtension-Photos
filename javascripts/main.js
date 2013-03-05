@@ -41,9 +41,14 @@
                     $('.i18n-htg').text(g("login_howToGet"));
                     $('.i18n-des').text(g("login_des"));
 
+                    //如何获取验证码链接
+                    $('.i18n-htg').on('click',function(){
+                        chrome.tabs.create({url : g("login_htg_url")});
+                    });
+
                     //点图片，打开google play地址
-                    $('#g-play-img').on('click',function(){
-                        chrome.tabs.create({url : 'https://play.google.com/store/apps/details?id=com.snappea'});
+                    $('.i18n-gplay').on('click',function(){
+                        chrome.tabs.create({url : g("login_gplay")});
                     });
                 });
 

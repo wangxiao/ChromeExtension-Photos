@@ -11,5 +11,7 @@
     "login_passBg":{"message":"Passcode..."},
     "login_login":{"message":"Login"},
     "login_howToGet":{"message":"Where's my passcode?"},
-    "login_des":{"message":"You should install SnapPea on your phone before login.It's free."}    
+    "login_htg_url":{"message":"http://next.wandoujia.com/#/portal"},    
+    "login_des":{"message":"You should install SnapPea on your phone before login.It's free."},
+    "login_gplay":{"message":"https://play.google.com/store/apps/details?id=com.snappea"}    
 }
