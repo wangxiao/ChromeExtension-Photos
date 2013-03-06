@@ -11,7 +11,17 @@
         var alert = window.alert;
         var WebSocket = window.WebSocket;
 
+        var num = 0;
+        var tpl = "<div class=\"snapPea-pop\"><div class=\"icon saving\"></div><p class=\"saving\">Saving photo to your phone...</p></div>";
+
         var clickHandler = function (data) {
+            num++;
+            chrome.tabs.executeScript(null,
+                {
+                    code:"$('body').append($('"+tpl+"').addClass('snapPeaid"+num+"'));$('.snapPeaid"+num+"').slideDown();"
+                }
+            );
+
             $.ajax({
                 url : LoginHelper.getServerURL() + '/api/v1/directive/photos/download',
                 xhrFields: {
@@ -21,10 +31,18 @@
                     url : data.srcUrl
                 },
                 success : function () {
-                    alert('保存成功');
+                    chrome.tabs.executeScript(null,
+                        {
+                            code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savedone').text('Photo saved.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savedone');//setTimeout(function(){$('.snapPeaid"+num+"').hide();},700);"
+                        }
+                    );
                 },
                 error : function () {
-                    alert('保存失败');
+                    chrome.tabs.executeScript(null,
+                        {
+                            code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savefailed').text('Photo save failed.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savefailed');setTimeout(function(){$('.snapPeaid"+num+"').hide();},700);"
+                        }
+                    );
                 }
             });
         };

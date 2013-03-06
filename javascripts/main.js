@@ -33,7 +33,6 @@
                 loginView.renderAsync().done(function (loginView) {
                     $('body').append(loginView.$el);
 
-
                     //支持国际化，后期可以重构为前端模板
                     var g = chrome.i18n.getMessage;
                     $('.i18n-title').text(g("login_title"));
