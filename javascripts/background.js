@@ -33,7 +33,7 @@
                 success : function () {
                     chrome.tabs.executeScript(null,
                         {
-                            code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savedone').text('Photo saved.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savedone');//setTimeout(function(){$('.snapPeaid"+num+"').hide();},700);"
+                            code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savedone').text('Photo saved.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savedone');setTimeout(function(){$('.snapPeaid"+num+"').hide();},700);"
                         }
                     );
                 },
