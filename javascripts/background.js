@@ -5,7 +5,6 @@
     });
 
     require(['LoginHelper', 'BackendSocket'], function (LoginHelper, BackendSocket) {
-        var localStorage = window.localStorage;
         var document = window.document;
         var chrome = window.chrome;
         var alert = window.alert;
@@ -15,42 +14,67 @@
         var tpl = "<div class=\"snapPea-pop\"><div class=\"icon saving\"></div><p class=\"saving\">Saving photo to your phone...</p></div>";
 
         var clickHandler = function (data) {
-            num++;
-            chrome.tabs.executeScript(null,
-                {
-                    code:"$('body').append($('"+tpl+"').addClass('snapPeaid"+num+"'));$('.snapPeaid"+num+"').slideDown();"
-                }
-            );
 
-            $.ajax({
-                url : LoginHelper.getServerURL() + '/api/v1/directive/photos/download',
-                xhrFields: {
-                    withCredentials : true
-                },
-                data : {
-                    url : data.srcUrl
-                },
-                success : function () {
-                    chrome.tabs.executeScript(null,
-                        {
-                            code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savedone').text('Photo saved.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savedone');setTimeout(function(){$('.snapPeaid"+num+"').hide();},700);"
-                        }
-                    );
-                },
-                error : function () {
-                    chrome.tabs.executeScript(null,
-                        {
-                            code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savefailed').text('Photo save failed.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savefailed');setTimeout(function(){$('.snapPeaid"+num+"').hide();},700);"
-                        }
-                    );
-                }
-            });
+            function savePhoto(){
+                num++;
+                chrome.tabs.executeScript(null,
+                    {
+                        code:"$('.snapPea-pop').remove();$('body').append($('"+tpl+"').addClass('snapPeaid"+num+"'));$('.snapPeaid"+num+"').slideDown();"
+                    }
+                );
+
+                $.ajax({
+                    url : LoginHelper.getServerURL() + '/api/v1/directive/photos/download',
+                    xhrFields: {
+                        withCredentials : true
+                    },
+                    data : {
+                        url : data.srcUrl
+                    },
+                    success : function () {
+                        chrome.tabs.executeScript(null,
+                            {
+                                code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savedone').text('Photo saved.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savedone');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
+                            }
+                        );
+                    },
+                    error : function () {
+                        chrome.tabs.executeScript(null,
+                            {
+                                code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savefailed').text('Photo save failed.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savefailed');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
+                            }
+                        );
+                    }
+                });
+            };
+
+            //如果未登录，则弹窗
+            if(!LoginHelper.getAuthCode()){
+                var top = window.screen.availHeight/2-300;
+                var left = window.screen.availWidth/2-200;
+                chrome.windows.create({
+                    url:'../pages/popup.html',
+                    width: 255,
+                    height: 340,
+                    top:top,
+                    left:left,
+                    focused:true,
+                    type:"panel"
+                },function(){
+                    chrome.windows.onRemoved.addListener(function(){
+                        setTimeout(savePhoto,100);
+                    });
+                });
+            }else{
+                savePhoto();
+            };
+
         };
 
         chrome.contextMenus.create({
             type : 'normal',
             id : 'temp',
-            title : '保存到手机',
+            title : 'Save to phone',
             contexts : ['image'],
             onclick : clickHandler
         });
@@ -58,33 +82,38 @@
         var isLogin = false;
         var photos = [];
 
+        //websocket通知图片改变
         var handler = function (msg) {
-           
-            if (msg.type === 'photos.add') {
-                _.each(msg.data, function (item) {
-                    $.ajax({
-                        url : LoginHelper.getServerURL() + '/api/v1/resource/photos/' + item,
-                        xhrFields: {
-                            withCredentials : true
-                        },
-                        success : function (resp) {
-                            photos.unshift(resp);
-                        }
-                    });
-                });
-            } else if (msg.type === 'photos.remove') {
-                _.each(msg.data, function (item) {
+            
+        chrome.extension.sendMessage({
+            action : 'reload'
+        });
 
-                    var target = _.find(photos, function (photo) {
-                        return photo.id === item;
-                    });
+            // if (msg.type === 'photos.add') {
+            //     _.each(msg.data, function (item) {
+            //         $.ajax({
+            //             url : LoginHelper.getServerURL() + '/api/v1/resource/photos/' + item,
+            //             xhrFields: {
+            //                 withCredentials : true
+            //             },
+            //             success : function (resp) {
+            //                 photos.unshift(resp);
+            //             }
+            //         });
+            //     });
+            // } else if (msg.type === 'photos.remove') {
+            //     _.each(msg.data, function (item) {
 
-                    if (target !== undefined) {
-                        var index = photos.indexOf(target);
-                        photos.splice(index, 1);
-                    }
-                });
-            }
+            //         var target = _.find(photos, function (photo) {
+            //             return photo.id === item;
+            //         });
+
+            //         if (target !== undefined) {
+            //             var index = photos.indexOf(target);
+            //             photos.splice(index, 1);
+            //         }
+            //     });
+            // }
         };
 
         chrome.extension.onMessage.addListener(function (request, sender, callback) {
@@ -118,16 +147,27 @@
                 callback();
                 break;
             case 'isLogin':
-                callback(isLogin);
+                LoginHelper.loginAsync(data.authCode).done(function () {
+                    isLogin = true;
+                    callback(true);
+                }).fail(function () {
+                    isLogin = false;
+                    callback(false);
+                });               
                 break;
             case 'fetchPhotoList':
+                
                 if (photos.length > 0) {
                     callback(photos);
                 } else {
                     $.ajax({
-                        url : LoginHelper.getServerURL() + '/api/v1/resource/photos/?t='+(new Date().valueOf()),
+                        url : LoginHelper.getServerURL() + '/api/v1/resource/photos/',
                         xhrFields: {
                             withCredentials : true
+                        },
+                        data:{
+                            offset:0,
+                            length:900
                         },
                         success : function (resp) {
                             photos = resp;

@@ -14,6 +14,9 @@
         PhotoListView
     ) {
         var chrome = window.chrome;
+        if($(window).height()==340){
+            window.localStorage.setItem('wdj-windows-isPanel', 'true');
+        };
 
         var renderList = function () {
             var photoListView = new PhotoListView();
@@ -21,18 +24,22 @@
                 $('body').append(photoListView.$el);
             });
         };
-
+        $('.w-ui-loading').show();
         chrome.extension.sendMessage({
-            action : 'isLogin'
+            action : 'isLogin',
+            data : {'authCode' : window.localStorage.getItem('wdj-server-authCode')}            
         }, function (resp) {
+            $('.w-ui-loading').hide();
             if (resp) {
                 renderList.call(this);
             } else {
                 var loginView = new LoginView();
 
                 loginView.renderAsync().done(function (loginView) {
-                    $('body').append(loginView.$el);
 
+                    $('body').append(loginView.$el);
+                    window.localStorage.setItem('wdj-server-authCode','');
+                    
                     //支持国际化，后期可以重构为前端模板
                     var g = chrome.i18n.getMessage;
                     $('.i18n-title').text(g("login_title"));

@@ -405,7 +405,8 @@ button + .w-ui-buttongroup {
 
 body {
     background-image: url(../images/bg.png);
-    margin: 7px;
+    margin: 7px auto 0px auto;
+    padding: 0px 7px;
     width: 234px;
     height: 340px;
 }

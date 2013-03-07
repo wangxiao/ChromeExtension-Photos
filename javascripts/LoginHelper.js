@@ -43,6 +43,7 @@
         var loginAsync = function (authCode) {
             var deferred = $.Deferred();
             var server = CONST.PROTOCPL + parseVerifiedCodeAsync(authCode) + ':' + CONST.PORT;
+
             $.ajax({
                 url : server + '/api/v1/directive/auth',
                 data : {
