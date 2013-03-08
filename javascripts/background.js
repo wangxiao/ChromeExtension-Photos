@@ -156,7 +156,6 @@
                     });               
                 break;
                 case 'fetchPhotoList':
-                    
                     if (photos.length > 0) {
                         callback(photos);
                     } else {
@@ -190,6 +189,8 @@
                             code:"(function(){"+
                                 "var ele = document.getElementById('"+data.id+"');"+
                                 "ele.src = '"+data.src+"';"+
+                                "ele.style.width = '"+data.width*2+"px';"+
+                                "ele.style.height = '"+data.height*2+"px';"+
                             "})();"
                         }
                     );

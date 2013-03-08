@@ -5,7 +5,7 @@
   "description": "__MSG_EXT_DESC__",
   "default_locale" : "en",
   "permissions": [
-    "contextMenus", "cookies", "*://*.wandoujia.com/*"
+    "contextMenus", "cookies", "*://*.wandoujia.com/*","*://*.snappea.com/*"
   ],
   "background" : {
     "page" : "pages/background.html"

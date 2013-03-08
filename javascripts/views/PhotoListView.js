@@ -59,7 +59,9 @@
                     action : 'dragend',
                     data : {
                         id:evt.target.id,
-                        src:this.model.get('path')
+                        src:this.model.get('path'),
+                        height:this.model.get('thumbnail_height'),
+                        width:this.model.get('thumbnail_width')
                     }
                 });
             },
