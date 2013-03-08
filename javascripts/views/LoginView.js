@@ -20,7 +20,6 @@
                             this.$el.fadeOut(function () {
                                 this.remove();
                                 this.trigger('login');
-                                console.log(window.localStorage.getItem('wdj-windows-isPanel'));
                                 if(window.localStorage.getItem('wdj-windows-isPanel')=='true'){
                                     window.localStorage.setItem('wdj-windows-isPanel','false');
                                     window.close();

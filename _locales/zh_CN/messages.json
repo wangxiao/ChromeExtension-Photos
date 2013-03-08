@@ -1,12 +1,12 @@
 {
-    "EXT_NAME" : {
-        "message" : "豌豆荚手机图片",
-        "description" : "Extension name"
-    },
-    "EXT_DESC" : {
-        "message" : "帮助你管理手机上的图片",
-        "description" : "Extension description"
-    }
+    // "EXT_NAME" : {
+    //     "message" : "豌豆荚手机图片",
+    //     "description" : "Extension name"
+    // },
+    // "EXT_DESC" : {
+    //     "message" : "帮助你管理手机上的图片",
+    //     "description" : "Extension description"
+    // }
     // ,
     // "login_title":{"message":"豌豆荚手机图片"},
     // "login_passBg":{"message":"请输入连接验证码..."},

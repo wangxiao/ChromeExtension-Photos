@@ -11,13 +11,13 @@
     "page" : "pages/background.html"
   },
   "browser_action": {
-    "default_icon": "images/icons/icon19.png",
+    "default_icon": "images/icons/smallicon.png",
     "default_popup": "pages/popup.html",
     "default_title": "__MSG_EXT_NAME__"
   },
   "icons": {
       "256": "images/icons/icon256.png",
-      "16": "images/icons/icon16.png",
+      "16": "images/icons/16.png",
       "48": "images/icons/icon48.png"
    },
   // "content_scripts": [

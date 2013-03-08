@@ -85,9 +85,9 @@
         //websocket通知图片改变
         var handler = function (msg) {
             
-        chrome.extension.sendMessage({
-            action : 'reload'
-        });
+        // chrome.extension.sendMessage({
+        //     action : 'reload'
+        // });
 
             // if (msg.type === 'photos.add') {
             //     _.each(msg.data, function (item) {
@@ -122,67 +122,77 @@
 
             var response;
             switch (action) {
-            case 'getTemplate':
-                response = $('#' + data.id).html();
-                callback(response);
+                case 'getTemplate':
+                    response = $('#' + data.id).html();
+                    callback(response);
                 break;
-            case 'getServerURL':
-                response = LoginHelper.getServerURL();
-                callback(response);
+                case 'getServerURL':
+                    response = LoginHelper.getServerURL();
+                    callback(response);
                 break;
-            case 'login':
-                LoginHelper.loginAsync(data.authCode).done(function () {
-                    isLogin = true;
-                    BackendSocket.init().on('message',handler);
-                    callback(true);
-                }).fail(function () {
-                    isLogin = false;
-                    callback(false);
-                });
-                break;
-            case 'logout':
-                photos = [];
-                LoginHelper.logout();
-                isLogin = false;
-                callback();
-                break;
-            case 'isLogin':
-                LoginHelper.loginAsync(data.authCode).done(function () {
-                    isLogin = true;
-                    callback(true);
-                }).fail(function () {
-                    isLogin = false;
-                    callback(false);
-                });               
-                break;
-            case 'fetchPhotoList':
-                
-                if (photos.length > 0) {
-                    callback(photos);
-                } else {
-                    $.ajax({
-                        url : LoginHelper.getServerURL() + '/api/v1/resource/photos/',
-                        xhrFields: {
-                            withCredentials : true
-                        },
-                        data:{
-                            offset:0,
-                            length:900
-                        },
-                        success : function (resp) {
-                            photos = resp;
-                            callback(resp);
-                        },
-                        error : function (resp) {
-                            callback(resp);
-                        }
+                case 'login':
+                    LoginHelper.loginAsync(data.authCode).done(function () {
+                        isLogin = true;
+                        BackendSocket.init().on('message',handler);
+                        callback(true);
+                    }).fail(function () {
+                        isLogin = false;
+                        callback(false);
                     });
-                }
                 break;
-            case 'preview':
-                chrome.tabs.create({
-                    url : 'http://next.wandoujia.com/?ac=' + LoginHelper.getAuthCode() + '#/photos?preview=' + data.id
-                });
+                case 'logout':
+                    photos = [];
+                    LoginHelper.logout();
+                    isLogin = false;
+                    callback();
+                break;
+                case 'isLogin':
+                    LoginHelper.loginAsync(data.authCode).done(function () {
+                        isLogin = true;
+                        callback(true);
+                    }).fail(function () {
+                        isLogin = false;
+                        callback(false);
+                    });               
+                break;
+                case 'fetchPhotoList':
+                    
+                    if (photos.length > 0) {
+                        callback(photos);
+                    } else {
+                        $.ajax({
+                            url : LoginHelper.getServerURL() + '/api/v1/resource/photos/',
+                            xhrFields: {
+                                withCredentials : true
+                            },
+                            data:{
+                                offset:0,
+                                length:99999
+                            },
+                            success : function (resp) {
+                                photos = resp;
+                                callback(resp);
+                            },
+                            error : function (resp) {
+                                callback(resp);
+                            }
+                        });
+                    }
+                break;
+                case 'preview':
+                    chrome.tabs.create({
+                        url : 'http://web.snappea.com/?ac=' + LoginHelper.getAuthCode() + '#/photos?preview=' + data.id
+                    });
+                break;
+                case 'dragend':
+                    chrome.tabs.executeScript(null,
+                        {
+                            code:"(function(){"+
+                                "var ele = document.getElementById('"+data.id+"');"+
+                                "ele.src = '"+data.src+"';"+
+                            "})();"
+                        }
+                    );
                 break;
             }
 

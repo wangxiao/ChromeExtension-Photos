@@ -12,32 +12,27 @@
   <body>
 
     <div class="w-ctn" id="login">
-      <img class="icon" src="../images/icons/icon256.png" alt="close" />
-      <div class="title-ctn hbox">
-          <hr />
-          <div class="title text-thirdly i18n-title"></div>
-          <hr />
+      <div class='login-header'>
+        <img class="pt15 pl15" src="../images/icons/icon_logo.png" />
+        <div class="hbox mt35">
+          <input class="input-login i18n-passBg ml15 " type="text" placeholder=""></input>
+          <button class="button-connect primary ml5 i18n-login h35 "></button>
+          <p class="ml20 error i18n-error dib"></p>
+          <a class="dib mt10 ml20 i18n-htg" href=""></a>
+        </div>
       </div>
-      <div class="hbox mt15">
-        <input class="input-login i18n-passBg" type="text" placeholder=""></input>
-        <button class="button-connect primary ml5 i18n-login"></button>
-        <p class="ml5 error i18n-error dib"></p>
-        <a class="dib mt5 ml5 i18n-htg" href=""></a>
-      </div>
-      <div class="qr-ctn mt15">
-        <p class='gray8 mt15 ml10 i18n-des'></p>
-        <img class="bc mt15 mb15 db w140 hand i18n-gplay" alt="google play" src="../images/g_play.gif">
-      </div>
+      <p class='gray8 mt15 ml10 i18n-des'></p>
+      <img class="mt15 mb15 db w140 hand i18n-gplay ml10" alt="google play" src="../images/g_play.gif">
     </div>
 
     <div id="list-ctn">
-      <div class="w-ctn" id="photo-list">
+      <div class="w-ctn mt5" id="photo-list">
         <div class="text-thirdly phone-title cf">
           <div class="phone-name"></div>
-          <div class="link button-logout"></div>
+          <div class="link button-logout" title="sign out"></div>
           <div class="link button-refresh"></div>
         </div>
-        <ul id="photo-ctn" class="cf"></ul>
+        <ul id="photo-ctn" class="cf ml5 mt5"></ul>
       </div>
     </div>
 

@@ -8,15 +8,15 @@
 
         var document = window.document;
         var chrome = window.chrome;
-
+        var imgNum = 0;
         var PhotoItemView = Backbone.View.extend({
             className : 'w-photo-item',
             tagName : 'li',
             render : function () {
-                var $img = $('<img>').attr({
+                var $img = $('<img id="sanppea-img-'+this.model.get('id')+'">').attr({
                     src : this.model.get('thumbnail_path')
                 });
-                
+                imgNum ++ ;
                 //增加loading背景图，可能会增加性能问题
                 this.$el.addClass('loading');
                 
@@ -39,6 +39,7 @@
                 });
                 return this;
             },
+
             clickItem : function () {
                 chrome.extension.sendMessage({
                     action : 'preview',
@@ -47,16 +48,26 @@
                     }
                 });
             },
-            dragstart : function (evt) {
-                var $img = $('<img>').attr({
-                    src : this.model.get('path')
-                });
 
-                evt.target = $img[0];
+            // dragstart : function (evt){
+            //     evt.target.setAttribute('data-url','');
+            //     evt.target.src = 
+            // },
+
+            dragend : function (evt){
+                chrome.extension.sendMessage({
+                    action : 'dragend',
+                    data : {
+                        id:evt.target.id,
+                        src:this.model.get('path')
+                    }
+                });
             },
+
             events : {
                 'click' : 'clickItem',
-                'dragstart' : 'dragstart'
+                // 'dragstart' : 'dragstart',
+                'dragend' : 'dragend'
             }
         });
 
