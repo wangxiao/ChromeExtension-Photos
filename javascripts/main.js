@@ -47,7 +47,6 @@
                     $('.i18n-login').text(g("login_login"));
                     $('.i18n-htg').text(g("login_howToGet"));
                     $('.i18n-des').text(g("login_des"));
-                    $('.i18n-error').text(g("login_error")).hide();
 
                     //如何获取验证码链接
                     $('.i18n-htg').on('click',function(){

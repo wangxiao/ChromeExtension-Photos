@@ -29,7 +29,7 @@
                             $('.w-ui-loading').hide();
                             this.$('.input-login').focus();
                             this.$el.show();
-                            $('.i18n-error').show();
+                            $('.i18n-error').removeClass('dn').addClass('dib');
                         }
                     }.bind(this));
                 } else {

@@ -216,7 +216,7 @@ button,
 input,
 textarea {
   color: #000;
-  font: 12px/1.5em Arial, Helvetica, Microsoft Yahei, sans-serif;
+  font: 12px/1.3em Arial, Helvetica, Microsoft Yahei, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -626,6 +626,8 @@ body {
   margin-right: 5px;
   margin-left: 5px;
   color: #333;
+  overflow: hidden;
+  width: 150px;
 }
 
 #photo-ctn li {
@@ -658,7 +660,7 @@ body {
 
 /*display相关*/
 .db{display: block;}
-.dh{display: hidden;}
+.dn{display: none;}
 .dib{display: inline-block;}
 
 .bc{margin-left:auto;margin-right:auto;}

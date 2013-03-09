@@ -85,35 +85,31 @@
         //websocket通知图片改变
         var handler = function (msg) {
             
-        // chrome.extension.sendMessage({
-        //     action : 'reload'
-        // });
+            if (msg.type === 'photos.add') {
+                _.each(msg.data, function (item) {
+                    $.ajax({
+                        url : LoginHelper.getServerURL() + '/api/v1/resource/photos/' + item,
+                        xhrFields: {
+                            withCredentials : true
+                        },
+                        success : function (resp) {
+                            photos.unshift(resp);
+                        }
+                    });
+                });
+            } else if (msg.type === 'photos.remove') {
+                _.each(msg.data, function (item) {
 
-            // if (msg.type === 'photos.add') {
-            //     _.each(msg.data, function (item) {
-            //         $.ajax({
-            //             url : LoginHelper.getServerURL() + '/api/v1/resource/photos/' + item,
-            //             xhrFields: {
-            //                 withCredentials : true
-            //             },
-            //             success : function (resp) {
-            //                 photos.unshift(resp);
-            //             }
-            //         });
-            //     });
-            // } else if (msg.type === 'photos.remove') {
-            //     _.each(msg.data, function (item) {
+                    var target = _.find(photos, function (photo) {
+                        return photo.id === item;
+                    });
 
-            //         var target = _.find(photos, function (photo) {
-            //             return photo.id === item;
-            //         });
-
-            //         if (target !== undefined) {
-            //             var index = photos.indexOf(target);
-            //             photos.splice(index, 1);
-            //         }
-            //     });
-            // }
+                    if (target !== undefined) {
+                        var index = photos.indexOf(target);
+                        photos.splice(index, 1);
+                    }
+                });
+            }
         };
 
         chrome.extension.onMessage.addListener(function (request, sender, callback) {
@@ -188,6 +184,7 @@
                         {
                             code:"(function(){"+
                                 "var ele = document.getElementById('"+data.id+"');"+
+                                "if(!ele){return;};"+
                                 "ele.src = '"+data.src+"';"+
                                 "ele.style.width = '"+data.width*2+"px';"+
                                 "ele.style.height = '"+data.height*2+"px';"+

@@ -5,7 +5,6 @@
     ], function (
         PhotosCollection
     ) {
-
         var document = window.document;
         var chrome = window.chrome;
         var imgNum = 0;
@@ -50,8 +49,7 @@
             },
 
             // dragstart : function (evt){
-            //     evt.target.setAttribute('data-url','');
-            //     evt.target.src = 
+            //     evt.target.src = this.model.get('path');
             // },
 
             dragend : function (evt){
