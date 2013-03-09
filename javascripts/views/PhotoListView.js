@@ -48,9 +48,26 @@
                 });
             },
 
-            // dragstart : function (evt){
-            //     evt.target.src = this.model.get('path');
-            // },
+            dragstart : function (evt){
+                var img = new Image();
+                img.src = this.model.get('path');
+                var w = this.model.get('thumbnail_width')*2;
+                var h = this.model.get('thumbnail_height')*2;
+                img.onload = function(){
+                    var canvas = document.createElement('canvas');
+                    canvas.width = w;
+                    canvas.height = h;
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0,w,h);
+                    var base64 = canvas.toDataURL();
+                    chrome.extension.sendMessage({
+                        action : 'dragstart',
+                        data:{
+                            base64 : base64
+                        }
+                    });
+                };        
+            },
 
             dragend : function (evt){
                 chrome.extension.sendMessage({
@@ -66,7 +83,7 @@
 
             events : {
                 'click' : 'clickItem',
-                // 'dragstart' : 'dragstart',
+                'dragstart' : 'dragstart',
                 'dragend' : 'dragend'
             }
         });
@@ -102,7 +119,12 @@
 
                 this.collection.on('refresh', function (collection) {
                     this.renderThread();
-                    this.$('.phone-name').html(window.localStorage.getItem('wdj-phone-name'));
+                    var phoneName = this.$('.phone-name');
+                    var text = window.localStorage.getItem('wdj-phone-name');
+                    this.$('.phone-name').text(text);
+                    if(phoneName.width()>180){
+                        phoneName.width(180);
+                    };
                     $('.w-ui-loading').hide();
                 }, this);
             },
@@ -118,8 +140,12 @@
                     this.$el = $(resp);
                     this.delegateEvents();
 
-                    this.$('.phone-name').html(window.localStorage.getItem('wdj-phone-name'));
-
+                    var phoneName = this.$('.phone-name');
+                    var text = window.localStorage.getItem('wdj-phone-name');
+                    this.$('.phone-name').text(text);
+                    if(phoneName.width()>180){
+                        phoneName.width(180);
+                    };
                     this.renderPhotos();
 
                     this.$el.on('scroll', function () {

@@ -50,7 +50,7 @@
                     authcode :  authCode,
                     client_type : 4
                 },
-                crossDomain : true,
+                //crossDomain : true,
                 timeout : 1000 * 10,
                 xhrFields : {
                     withCredentials : true

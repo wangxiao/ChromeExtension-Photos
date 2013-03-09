@@ -82,6 +82,9 @@
         var isLogin = false;
         var photos = [];
 
+        //当前拖拽的图片base64信息
+        var base64 = '';
+
         //websocket通知图片改变
         var handler = function (msg) {
             
@@ -179,17 +182,20 @@
                         url : 'http://web.snappea.com/?ac=' + LoginHelper.getAuthCode() + '#/photos?preview=' + data.id
                     });
                 break;
+                case 'dragstart':
+                    base64 = data.base64;
+                break;
                 case 'dragend':
                     chrome.tabs.executeScript(null,
                         {
                             code:"(function(){"+
-                                "var ele = document.getElementById('"+data.id+"');"+
-                                "if(!ele){return;};"+
-                                "ele.src = '"+data.src+"';"+
-                                "ele.style.width = '"+data.width*2+"px';"+
-                                "ele.style.height = '"+data.height*2+"px';"+
-                            "})();"
-                        }
+                                    "var ele = document.getElementById('"+data.id+"');"+
+                                    "if(!ele){return;};"+
+                                    "ele.src = '"+ base64 +"';"+
+                                    "ele.style.width = '"+data.width*2+"px';"+
+                                    "ele.style.height = '"+data.height*2+"px';"+
+                                "})();"
+                            }
                     );
                 break;
             }
