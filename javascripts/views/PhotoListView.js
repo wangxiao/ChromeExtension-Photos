@@ -78,9 +78,12 @@
                         case 270:
                             ctx.translate(w/2,h/2);
                             ctx.rotate(orientation*Math.PI/180);
+                            w = w + h ;
+                            h = w - h ;
+                            w = w - h ;                            
                         break;
                     };
-                    ctx.drawImage(img,x,y,h,w);
+                    ctx.drawImage(img,x,y,w,h);
                     var base64 = canvas.toDataURL();
                     chrome.extension.sendMessage({
                         action : 'dragstart',
