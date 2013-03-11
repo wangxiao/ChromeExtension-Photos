@@ -87,7 +87,7 @@
 
         //websocket通知图片改变
         var handler = function (msg) {
-            
+            console.log(msg);
             if (msg.type === 'photos.add') {
                 _.each(msg.data, function (item) {
                     $.ajax({
@@ -118,7 +118,6 @@
         chrome.extension.onMessage.addListener(function (request, sender, callback) {
             var action = request.action;
             var data = request.data;
-
             var response;
             switch (action) {
                 case 'getTemplate':
@@ -191,12 +190,31 @@
                             code:"(function(){"+
                                     "var ele = document.getElementById('"+data.id+"');"+
                                     "if(!ele){return;};"+
-                                    "ele.src = '"+ base64 +"';"+
+                                    "ele.src = '"+data.src+"';"+
                                     "ele.style.width = '"+data.width*2+"px';"+
                                     "ele.style.height = '"+data.height*2+"px';"+
                                 "})();"
                             }
                     );
+
+                    var changeImg = function(){
+                        if(!base64){
+                            setTimeout(changeImg,10);
+                        }else{
+                            chrome.tabs.executeScript(null,
+                                {
+                                    code:"(function(){"+
+                                            "var ele = document.getElementById('"+data.id+"');"+
+                                            "ele.src = '"+ base64 +"';"+
+                                        "})();"
+                                    }
+                            );
+                            base64 = '';
+                        };
+                    };
+
+                    changeImg();
+                    
                 break;
             }
 

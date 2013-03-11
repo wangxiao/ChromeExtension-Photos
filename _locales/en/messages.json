@@ -4,11 +4,11 @@
         "description" : "Extension name"
     },
     "EXT_DESC" : {
-        "message" : "Your photos,in your web browser.Message,contacts,and apps coming soon.",
+        "message" : "The fastest way to access photos on your Android phone.",
         "description" : "Extension description"
     },
     "login_title":{"message":"SnapPea Photos"},
-    "login_passBg":{"message":"Passcode..."},
+    "login_passBg":{"message":"Passcode"},
     "login_login":{"message":"Sign in"},
     "login_howToGet":{"message":"Where's my passcode?"},
     "login_htg_url":{"message":"http://web.snappea.com#/portal/getstarted"},    

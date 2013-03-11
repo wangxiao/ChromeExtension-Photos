@@ -51,8 +51,8 @@
             dragstart : function (evt){
                 var img = new Image();
                 img.src = this.model.get('path');
-                var w = this.model.get('thumbnail_width')*2;
-                var h = this.model.get('thumbnail_height')*2;
+                var w = this.model.get('thumbnail_width')*4;
+                var h = this.model.get('thumbnail_height')*4;
                 img.onload = function(){
                     var canvas = document.createElement('canvas');
                     canvas.width = w;
@@ -119,12 +119,12 @@
 
                 this.collection.on('refresh', function (collection) {
                     this.renderThread();
-                    var phoneName = this.$('.phone-name');
                     var text = window.localStorage.getItem('wdj-phone-name');
-                    this.$('.phone-name').text(text);
-                    if(phoneName.width()>180){
-                        phoneName.width(180);
+                    var phoneName = this.$('.phone-name').attr('title',text);
+                    if(text.length>24){
+                        text = text.substr(0,20)+'...';
                     };
+                    phoneName.text(text);
                     $('.w-ui-loading').hide();
                 }, this);
             },
@@ -140,12 +140,12 @@
                     this.$el = $(resp);
                     this.delegateEvents();
 
-                    var phoneName = this.$('.phone-name');
                     var text = window.localStorage.getItem('wdj-phone-name');
-                    this.$('.phone-name').text(text);
-                    if(phoneName.width()>180){
-                        phoneName.width(180);
+                    var phoneName = this.$('.phone-name').attr('title',text);
+                    if(text.length>24){
+                        text = text.substr(0,20)+'...';
                     };
+                    phoneName.text(text);
                     this.renderPhotos();
 
                     this.$el.on('scroll', function () {
