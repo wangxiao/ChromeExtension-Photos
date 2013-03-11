@@ -645,6 +645,13 @@ body {
   margin-left: 4px;
 }
 
+.w-ui-loading .des{
+width: 180px;
+position: absolute;
+top: -30px;
+left: -62px;  
+}
+
 /*登陆页*/
 .login-header{
   background-color: #7ec100;
