@@ -50,7 +50,6 @@
 
             dragstart : function (evt){
                 var img = new Image();
-                console.log(this.model.get('path'));
                 img.src = this.model.get('path');
                 var orientation = this.model.get('orientation');
                 var w = this.model.get('thumbnail_width')*4;
@@ -80,7 +79,7 @@
                             ctx.rotate(orientation*Math.PI/180);
                             w = w + h ;
                             h = w - h ;
-                            w = w - h ;                            
+                            w = w - h ;                        
                         break;
                     };
                     ctx.drawImage(img,x,y,w,h);
@@ -96,13 +95,17 @@
             },
 
             dragend : function (evt){
+
+                var orientation = this.model.get('orientation');
+                var w = this.model.get('thumbnail_width');
+                var h = this.model.get('thumbnail_height');
                 chrome.extension.sendMessage({
                     action : 'dragend',
                     data : {
                         id:evt.target.id,
                         src:this.model.get('path'),
-                        height:this.model.get('thumbnail_height'),
-                        width:this.model.get('thumbnail_width')
+                        width:w,
+                        height:h
                     }
                 });
             },

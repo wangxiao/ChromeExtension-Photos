@@ -87,7 +87,6 @@
 
         //websocket通知图片改变
         var handler = function (msg) {
-            console.log(msg);
             if (msg.type === 'photos.add') {
                 _.each(msg.data, function (item) {
                     $.ajax({
@@ -149,6 +148,7 @@
                         isLogin = true;
                         callback(true);
                     }).fail(function () {
+                        photos = [];
                         isLogin = false;
                         callback(false);
                     });               
@@ -193,6 +193,8 @@
                                     "ele.src = '"+data.src+"';"+
                                     "ele.style.width = '"+data.width*2+"px';"+
                                     "ele.style.height = '"+data.height*2+"px';"+
+                                    "ele.setAttribute('width','"+data.width*2+"');"+
+                                    "ele.setAttribute('height','"+data.height*2+"');"+
                                 "})();"
                             }
                     );
@@ -210,7 +212,6 @@
                                         "})();"
                                     }
                             );
-                            //base64['$'+data.id] = '';
                         };
                     };
 

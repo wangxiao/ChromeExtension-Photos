@@ -11,7 +11,7 @@
     "page" : "pages/background.html"
   },
   "browser_action": {
-    "default_icon": "images/icons/smallicon.png",
+    "default_icon": "images/icons/icon256.png",
     "default_popup": "pages/popup.html",
     "default_title": "__MSG_EXT_NAME__"
   },
