@@ -416,7 +416,7 @@ body {
   left: 50%;
   margin: -25px 0 0 -25px;
   position: absolute;
-  top: 50%;
+  top: 45%;
   width: 50px;
 }
 .w-ui-loading.white {
@@ -648,7 +648,7 @@ body {
 .w-ui-loading .des{
 width: 180px;
 position: absolute;
-top: -30px;
+top: 55px;
 left: -62px;  
 }
 
@@ -659,7 +659,10 @@ left: -62px;
 }
 .i18n-error{color: #FFF;margin-top: 2px;}
 
-.loading{background:url('../images/gif_loading.gif') no-repeat scroll 50% 50%;}
+.loading{
+  background:url('../images/gif_loading.gif') no-repeat scroll 50% 50%;
+  background-color: #F5F5F5;
+}
 
 /* CSS 样式模块化 */
 .error{color: #F00;}

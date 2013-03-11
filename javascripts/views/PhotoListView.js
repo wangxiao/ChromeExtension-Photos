@@ -50,19 +50,42 @@
 
             dragstart : function (evt){
                 var img = new Image();
+                console.log(this.model.get('path'));
                 img.src = this.model.get('path');
+                var orientation = this.model.get('orientation');
                 var w = this.model.get('thumbnail_width')*4;
                 var h = this.model.get('thumbnail_height')*4;
+                var x = 0 ;
+                var y = 0 ;
                 img.onload = function(){
                     var canvas = document.createElement('canvas');
+                    switch(orientation){
+                        case 90:
+                        case 270:
+                            x = - w/2;
+                            y = - h/2;
+
+                            w = w + h ;
+                            h = w - h ;
+                            w = w - h ;
+                        break;
+                    };
                     canvas.width = w;
                     canvas.height = h;
                     var ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0,w,h);
+                    switch(orientation){
+                        case 90:
+                        case 270:
+                            ctx.translate(w/2,h/2);
+                            ctx.rotate(orientation*Math.PI/180);
+                        break;
+                    };
+                    ctx.drawImage(img,x,y,h,w);
                     var base64 = canvas.toDataURL();
                     chrome.extension.sendMessage({
                         action : 'dragstart',
                         data:{
+                            id : evt.target.id,
                             base64 : base64
                         }
                     });

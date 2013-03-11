@@ -83,7 +83,7 @@
         var photos = [];
 
         //当前拖拽的图片base64信息
-        var base64 = '';
+        var base64 = {};
 
         //websocket通知图片改变
         var handler = function (msg) {
@@ -182,7 +182,7 @@
                     });
                 break;
                 case 'dragstart':
-                    base64 = data.base64;
+                    base64['$'+data.id] = data.base64;
                 break;
                 case 'dragend':
                     chrome.tabs.executeScript(null,
@@ -198,18 +198,19 @@
                     );
 
                     var changeImg = function(){
-                        if(!base64){
+                        if(!base64['$'+data.id]){
                             setTimeout(changeImg,10);
                         }else{
                             chrome.tabs.executeScript(null,
                                 {
                                     code:"(function(){"+
                                             "var ele = document.getElementById('"+data.id+"');"+
-                                            "ele.src = '"+ base64 +"';"+
+                                            "ele.src = '"+ base64['$'+data.id] +"';"+
+                                            "ele.id = '';"+
                                         "})();"
                                     }
                             );
-                            base64 = '';
+                            //base64['$'+data.id] = '';
                         };
                     };
 
