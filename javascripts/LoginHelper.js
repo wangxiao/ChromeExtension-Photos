@@ -16,7 +16,7 @@
     var type = num.substr(0,1);
 
     //验证信息
-    var check = num.substr(1,2);
+    //var check = num.substr(1,2);
 
     //ip地址码
     var ipNum = num.substr(3);
