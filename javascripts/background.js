@@ -12,9 +12,7 @@
 
         var num = 0;
         var tpl = "<div class=\"snapPea-pop\"><div class=\"icon saving\"></div><p class=\"saving\">Saving photo to your phone...</p></div>";
-
         var clickHandler = function (data) {
-
             function savePhoto(){
                 num++;
                 chrome.tabs.executeScript(null,
@@ -31,6 +29,7 @@
                     data : {
                         url : data.srcUrl
                     },
+                    timeout : 1000 * 8,
                     success : function () {
                         chrome.tabs.executeScript(null,
                             {
@@ -49,9 +48,11 @@
             };
 
             //如果未登录，则弹窗
+            var isOurWin = false;
             if(!LoginHelper.getAuthCode()){
                 var top = window.screen.availHeight/2-300;
                 var left = window.screen.availWidth/2-200;
+                isOurWin = true;
                 chrome.windows.create({
                     url:'../pages/popup.html',
                     width: 255,
@@ -62,7 +63,10 @@
                     type:"panel"
                 },function(){
                     chrome.windows.onRemoved.addListener(function(){
-                        setTimeout(savePhoto,100);
+                        if(isOurWin){
+                          setTimeout(savePhoto,100);
+                          isOurWin = false; 
+                        };
                     });
                 });
             }else{
@@ -87,6 +91,7 @@
 
         //websocket通知图片改变
         var handler = function (msg) {
+            console.log(msg);
             if (msg.type === 'photos.add') {
                 _.each(msg.data, function (item) {
                     $.ajax({

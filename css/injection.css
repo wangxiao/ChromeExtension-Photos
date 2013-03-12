@@ -7,7 +7,7 @@
   width: 280px;
   height: 100px;
   position: fixed;
-  top:10px;
+  top:10px!important;
   right:10px;
   opacity: 0.8;
   border-radius: 15px;
@@ -18,7 +18,7 @@
 .snapPea-pop .icon{
   width: 50px;
   height: 50px;
-  top: 18px;
+  top: 18px!important;
   left: 43%;
   position: absolute;
 }
@@ -28,7 +28,7 @@
   font-size: 14px;
   display: block;
   position: absolute;
-  top: 68px;
+  top: 68px!important;
 }
 
 .snapPea-pop div.savedone{
