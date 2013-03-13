@@ -657,7 +657,7 @@ left: -62px;
   background-color: #7ec100;
   height:210px;
 }
-.i18n-error{color: #FFF;margin-top: 2px;}
+.i18n-error{color: #FFF;}
 
 .loading{
   background:url('../images/gif_loading.gif') no-repeat scroll 50% 50%;
@@ -679,13 +679,13 @@ left: -62px;
 .ml5{margin-left: 5px;}
 .mt5{margin-top: 5px;}
 .mt10{margin-top: 10px;}
+.mt15{margin-top: 15px;}
 .mt25{margin-top: 25px;}
 .mt30{margin-top: 30px;}
 .ml10{margin-left: 10px;}
 .ml15{margin-left: 15px;}
 .ml20{margin-left: 20px;}
 .mb15{margin-bottom: 15px;}
-.mt15{margin-top: 15px;}
 .mt35{margin-top: 35px;}
 .pt15{padding-top: 15px;}
 .pt20{padding-top: 20px;}

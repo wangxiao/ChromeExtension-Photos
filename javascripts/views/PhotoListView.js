@@ -40,6 +40,8 @@
             },
 
             clickItem : function () {
+                _gaq.push(['_trackEvent', '图片页面', '点击图片']);
+
                 chrome.extension.sendMessage({
                     action : 'preview',
                     data : {
@@ -52,8 +54,8 @@
                 var img = new Image();
                 img.src = this.model.get('path');
                 var orientation = this.model.get('orientation');
-                var w = this.model.get('thumbnail_width')*4;
-                var h = this.model.get('thumbnail_height')*4;
+                var w = this.model.get('thumbnail_width')*2;
+                var h = this.model.get('thumbnail_height')*2;
                 var x = 0 ;
                 var y = 0 ;
                 img.onload = function(){
@@ -194,6 +196,7 @@
                 this.renderPhotos();
             },
             clickButtonLogout : function () {
+                _gaq.push(['_trackEvent', '图片页面', '点击退出']);                
                 chrome.extension.sendMessage({
                     action : 'logout',
                 }, function () {

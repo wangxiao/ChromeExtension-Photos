@@ -32,7 +32,6 @@
         //2 ：由本地生成的验证码，IP地址是C类地址
         if(ipNum.length<5){return;}
         ipNum = ipNum.substr(0,5);
-        console.log(ipNum);
         ip = '192.168.'+ Math.floor(ipNum/256) +  '.' + (ipNum%256);
 
       break;
@@ -75,7 +74,7 @@
                     client_type : 4
                 },
                 //crossDomain : true,
-                timeout : 1000 * 10,
+                timeout : 1000 * 5,
                 xhrFields : {
                     withCredentials : true
                 },

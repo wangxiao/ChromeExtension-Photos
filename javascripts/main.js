@@ -44,18 +44,26 @@
                     var g = chrome.i18n.getMessage;
                     $('.i18n-title').text(g("login_title"));
                     $('.i18n-passBg').focus().attr("placeholder",g("login_passBg"));
-                    $('.i18n-login').text(g("login_login"));
+                    $('.i18n-login').text(g("login_login")).on('click',function(){
+                        _gaq.push(['_trackEvent', '登陆页', '登陆']);
+                    });
+
                     $('.i18n-htg').text(g("login_howToGet"));
                     $('.i18n-des').text(g("login_des"));
 
                     //如何获取验证码链接
                     $('.i18n-htg').on('click',function(){
                         chrome.tabs.create({url : g("login_htg_url")});
+                        _gaq.push(['_trackEvent', '登陆页', '点击如何获取验证码']);
                     });
 
                     //点图片，打开google play地址
                     $('.i18n-gplay').on('click',function(){
                         chrome.tabs.create({url : g("login_gplay")});
+                    });
+
+                    $('i18n-gplay').on('click',function(){
+                        _gaq.push(['_trackEvent', '登陆页', '前往Google play']);
                     });
                 });
 
@@ -65,10 +73,5 @@
             }
         });
     });
-
-    var _gaq=[['_setAccount','UA-15790641-12'],['_trackPageview']];
-    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-    s.parentNode.insertBefore(g,s)}(document,'script'));
 
 }(this));

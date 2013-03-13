@@ -20,6 +20,7 @@
                             this.$el.fadeOut(function () {
                                 this.remove();
                                 this.trigger('login');
+                                _gaq.push(['_trackEvent', '登陆', '登陆成功']);
                                 if(window.localStorage.getItem('wdj-windows-isPanel')=='true'){
                                     window.localStorage.setItem('wdj-windows-isPanel','false');
                                     window.close();
@@ -30,6 +31,7 @@
                             this.$('.input-login').focus();
                             this.$el.show();
                             $('.i18n-error').removeClass('dn').addClass('dib');
+                            _gaq.push(['_trackEvent', '登陆', '登陆失败']);
                         }
                     }.bind(this));
                 } else {

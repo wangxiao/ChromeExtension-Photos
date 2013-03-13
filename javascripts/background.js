@@ -29,7 +29,7 @@
                     data : {
                         url : data.srcUrl
                     },
-                    timeout : 1000 * 8,
+                    timeout : 1000 * 5,
                     success : function () {
                         chrome.tabs.executeScript(null,
                             {
@@ -75,13 +75,13 @@
 
         };
 
-        chrome.contextMenus.create({
-            type : 'normal',
-            id : 'temp',
-            title : 'Save to phone',
-            contexts : ['image'],
-            onclick : clickHandler
-        });
+        // chrome.contextMenus.create({
+        //     type : 'normal',
+        //     id : 'temp',
+        //     title : 'Save to phone',
+        //     contexts : ['image'],
+        //     onclick : clickHandler
+        // });
 
         var isLogin = false;
         var photos = [];
@@ -90,34 +90,33 @@
         var base64 = {};
 
         //websocket通知图片改变
-        var handler = function (msg) {
-            console.log(msg);
-            if (msg.type === 'photos.add') {
-                _.each(msg.data, function (item) {
-                    $.ajax({
-                        url : LoginHelper.getServerURL() + '/api/v1/resource/photos/' + item,
-                        xhrFields: {
-                            withCredentials : true
-                        },
-                        success : function (resp) {
-                            photos.unshift(resp);
-                        }
-                    });
-                });
-            } else if (msg.type === 'photos.remove') {
-                _.each(msg.data, function (item) {
+        // var handler = function (msg) {
+        //     if (msg.type === 'photos.add') {
+        //         _.each(msg.data, function (item) {
+        //             $.ajax({
+        //                 url : LoginHelper.getServerURL() + '/api/v1/resource/photos/' + item,
+        //                 xhrFields: {
+        //                     withCredentials : true
+        //                 },
+        //                 success : function (resp) {
+        //                     photos.unshift(resp);
+        //                 }
+        //             });
+        //         });
+        //     } else if (msg.type === 'photos.remove') {
+        //         _.each(msg.data, function (item) {
 
-                    var target = _.find(photos, function (photo) {
-                        return photo.id === item;
-                    });
+        //             var target = _.find(photos, function (photo) {
+        //                 return photo.id === item;
+        //             });
 
-                    if (target !== undefined) {
-                        var index = photos.indexOf(target);
-                        photos.splice(index, 1);
-                    }
-                });
-            }
-        };
+        //             if (target !== undefined) {
+        //                 var index = photos.indexOf(target);
+        //                 photos.splice(index, 1);
+        //             }
+        //         });
+        //     }
+        // };
 
         chrome.extension.onMessage.addListener(function (request, sender, callback) {
             var action = request.action;
@@ -135,7 +134,7 @@
                 case 'login':
                     LoginHelper.loginAsync(data.authCode).done(function () {
                         isLogin = true;
-                        BackendSocket.init().on('message',handler);
+                        //BackendSocket.init().on('message',handler);
                         callback(true);
                     }).fail(function () {
                         isLogin = false;
@@ -151,6 +150,7 @@
                 case 'isLogin':
                     LoginHelper.loginAsync(data.authCode).done(function () {
                         isLogin = true;
+                        photos = [];
                         callback(true);
                     }).fail(function () {
                         photos = [];
@@ -195,11 +195,9 @@
                             code:"(function(){"+
                                     "var ele = document.getElementById('"+data.id+"');"+
                                     "if(!ele){return;};"+
-                                    "ele.src = '"+data.src+"';"+
-                                    "ele.style.width = '"+data.width*2+"px';"+
-                                    "ele.style.height = '"+data.height*2+"px';"+
-                                    "ele.setAttribute('width','"+data.width*2+"');"+
-                                    "ele.setAttribute('height','"+data.height*2+"');"+
+                                    "ele.src = 'http://web.snappea.com/images/loading.gif';"+
+                                    "ele.style.width = '24px';"+
+                                    "ele.style.height = '24px';"+
                                 "})();"
                             }
                     );
@@ -213,6 +211,8 @@
                                     code:"(function(){"+
                                             "var ele = document.getElementById('"+data.id+"');"+
                                             "ele.src = '"+ base64['$'+data.id] +"';"+
+                                            "ele.style.width = '"+data.width*2+"px';"+
+                                            "ele.style.height = '"+data.height*2+"px';"+
                                             "ele.id = '';"+
                                         "})();"
                                     }
@@ -230,11 +230,57 @@
 
         LoginHelper.loginAsync().done(function () {
             isLogin = true;
-            BackendSocket.init().on('message', function (data) {
-                handler(data);
-            });
+            // BackendSocket.init().on('message', function (data) {
+            //     handler(data);
+            // });
         }).fail(function () {
             isLogin = false;
         });
+
+        chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
+            if(String(changeInfo.url).indexOf('mail.google.com')!=-1){
+
+                var tpl = "<div id='snappea-for-gmail'>"+      
+                              "<div class='header'>"+
+                                "<div class='img'></div>"+
+                              "</div>"+
+                              "<div class='body'>"+
+                                "<h1>Email the photos on your phone</h1>"+
+                                "<p>Open SnapPea Photos above and drag</p>"+
+                                "<p>a photo into the body of an email.</p>"+
+                                "<p>It's that easy!</p>"+
+                              "</div>"+
+                              "<button id='snappea-getIt'>Got it</button>"+
+                            "</div>";
+
+                chrome.tabs.executeScript(null,
+                    {
+                          code:"(function(){"+
+                                "if(window.localStorage.getItem('snappea-for-gmail')!='true'){"+
+                                "var ele = document.getElementById('snappea-for-gmail');"+
+                                "if(ele){document.body.removeChild(ele);};"+
+                                "$('body').append($(\""+tpl+"\"));"+
+                                  "var getDom = function(){"+
+                                    "var ele = document.getElementById('snappea-for-gmail');"+
+                                    "var btn = document.getElementById('snappea-getIt');"+
+                                    "btn.addEventListener('click',function(){"+
+                                      "document.body.removeChild(ele);"+
+                                      "window.localStorage.setItem('snappea-for-gmail','true');"+
+                                    "});"+
+                                    "if(!btn){"+
+                                      "setTimeout(function(){"+
+                                        "getDom();"+
+                                      "},100);"+
+                                    "};"+
+                                  "};"+
+                                  "getDom();"+
+                                "};"+
+                            "})();"
+                    }
+                );
+            };
+        });
+
+
     });
 }(this));
