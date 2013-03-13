@@ -62,6 +62,10 @@
                         chrome.tabs.create({url : g("login_gplay")});
                     });
 
+                    $('.error-more').on('click',function(){
+                        chrome.tabs.create({url : "http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web"});
+                    });
+
                     $('i18n-gplay').on('click',function(){
                         _gaq.push(['_trackEvent', '登陆页', '前往Google play']);
                     });

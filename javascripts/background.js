@@ -246,9 +246,7 @@
                               "</div>"+
                               "<div class='body'>"+
                                 "<h1>Email the photos on your phone</h1>"+
-                                "<p>Open SnapPea Photos above and drag</p>"+
-                                "<p>a photo into the body of an email.</p>"+
-                                "<p>It's that easy!</p>"+
+                                "<p>Open SnapPea Photos above and drag a photo into the body of an email. It's that easy!</p>"+
                               "</div>"+
                               "<button id='snappea-getIt'>Got it</button>"+
                             "</div>";
@@ -257,24 +255,28 @@
                     {
                           code:"(function(){"+
                                 "if(window.localStorage.getItem('snappea-for-gmail')!='true'){"+
-                                "var ele = document.getElementById('snappea-for-gmail');"+
-                                "if(ele){document.body.removeChild(ele);};"+
-                                "$('body').append($(\""+tpl+"\"));"+
-                                  "var getDom = function(){"+
                                     "var ele = document.getElementById('snappea-for-gmail');"+
-                                    "var btn = document.getElementById('snappea-getIt');"+
-                                    "btn.addEventListener('click',function(){"+
-                                      "document.body.removeChild(ele);"+
-                                      "window.localStorage.setItem('snappea-for-gmail','true');"+
-                                    "});"+
-                                    "if(!btn){"+
-                                      "setTimeout(function(){"+
-                                        "getDom();"+
-                                      "},100);"+
+                                    "if(ele){return;};"+
+                                    "var jele = $(\""+tpl+"\").css('top',-355);"+
+                                    "$('body').append(jele);"+
+                                    "setTimeout(function(){"+
+                                        "jele.animate({'top':10},1200);"+
+                                    "},1000);"+
+                                    "var getDom = function(){"+
+                                        "var ele = document.getElementById('snappea-for-gmail');"+
+                                        "var btn = document.getElementById('snappea-getIt');"+
+                                        "btn.addEventListener('click',function(){"+
+                                          "document.body.removeChild(ele);"+
+                                          "window.localStorage.setItem('snappea-for-gmail','true');"+
+                                        "});"+
+                                        "if(!btn){"+
+                                          "setTimeout(function(){"+
+                                            "getDom();"+
+                                          "},100);"+
+                                        "};"+
+                                      "};"+
+                                      "getDom();"+
                                     "};"+
-                                  "};"+
-                                  "getDom();"+
-                                "};"+
                             "})();"
                     }
                 );
