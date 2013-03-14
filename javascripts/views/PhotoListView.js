@@ -12,7 +12,7 @@
             className : 'w-photo-item',
             tagName : 'li',
             render : function () {
-                var $img = $('<img id="sanppea-img-'+this.model.get('id')+'">').attr({
+                var $img = $('<img id="sanppea-img-'+this.model.get('id')+'" class="snappea-img">').attr({
                     src : this.model.get('thumbnail_path')
                 });
                 imgNum ++ ;
@@ -37,11 +37,8 @@
                         });
                     };
 
-                    //为了支持拖拽至Gmail
-                    //$img.affert()
-
-
                 });
+                
                 return this;
             },
 
@@ -56,13 +53,32 @@
                 });
             },
 
-            dragstart : function (evt){
+            // mousedown : function (evt){
+            //     var url = this.model.get('path');
+            //     var orientation = this.model.get('orientation');
+            //     var w = this.model.get('thumbnail_width')*4;
+            //     var h = this.model.get('thumbnail_height')*4;
+            //     chrome.extension.sendMessage({
+            //         action : 'mousedown',
+            //         data:{
+            //             id : evt.target.id,
+            //             orientation : orientation,
+            //             width :w,
+            //             height:h,
+            //             url : url
+            //         }
+            //     });
+            // },
+
+            mousedown : function (evt){
+
                 var url = this.model.get('path');
+
                 var orientation = this.model.get('orientation');
-                var w = this.model.get('thumbnail_width')*4;
-                var h = this.model.get('thumbnail_height')*4;
+                var w = this.model.get('thumbnail_width')*2;
+                var h = this.model.get('thumbnail_height')*2;
                 chrome.extension.sendMessage({
-                    action : 'dragstart',
+                    action : 'mousedown',
                     data:{
                         id : evt.target.id,
                         orientation : orientation,
@@ -73,26 +89,9 @@
                 });
             },
 
-            dragend : function (evt){
-
-                var orientation = this.model.get('orientation');
-                var w = this.model.get('thumbnail_width')*2;
-                var h = this.model.get('thumbnail_height')*2;
-                chrome.extension.sendMessage({
-                    action : 'dragend',
-                    data : {
-                        id:evt.target.id,
-                        src:this.model.get('path'),
-                        width:w,
-                        height:h
-                    }
-                });
-            },
-
             events : {
                 'click' : 'clickItem',
-                'dragstart' : 'dragstart',
-                'dragend' : 'dragend'
+                'mousedown' : 'mousedown'
             }
         });
 

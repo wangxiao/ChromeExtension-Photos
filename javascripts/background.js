@@ -88,6 +88,7 @@
 
         //当前拖拽的图片base64信息
         var base64 = {};
+        var picFlag = {};
 
         //websocket通知图片改变
         // var handler = function (msg) {
@@ -186,17 +187,77 @@
                         url : 'http://web.snappea.com/?ac=' + LoginHelper.getAuthCode() + '#/photos?preview=' + data.id
                     });
                 break;
-                case 'dragstart':
+
+                // case 'mousedown':
+                //     console.log('mousedown');
+                //     var x = 0 ;
+                //     var y = 0 ;
+                //     var w = data.width;
+                //     var h = data.height;
+                //     var orientation = data.orientation;
+                //     var id = data.id;
+                //     var img = new Image();
+                //     img.src = data.url;
+                //     img.onload = function(){
+
+                //         var canvas = document.createElement('canvas');
+                //         switch(orientation){
+                //             case 90:
+                //             case 270:
+                //                 x = - w/2;
+                //                 y = - h/2;
+
+                //                 w = w + h ;
+                //                 h = w - h ;
+                //                 w = w - h ;
+                //             break;
+                //         };
+                //         canvas.width = w;
+                //         canvas.height = h;
+                //         var ctx = canvas.getContext('2d');
+                //         switch(orientation){
+                //             case 90:
+                //             case 270:
+                //                 ctx.translate(w/2,h/2);
+                //                 ctx.rotate(orientation*Math.PI/180);
+                //                 w = w + h ;
+                //                 h = w - h ;
+                //                 w = w - h ;                        
+                //             break;
+                //         };
+                //         ctx.drawImage(img,x,y,w,h);
+                //         base64['$'+data.id] = canvas.toDataURL();
+                //         canvas = null;
+                //         ctx = null;
+                //     }; 
+                // break;
+
+                case 'mousedown':
+
                     var x = 0 ;
                     var y = 0 ;
                     var w = data.width;
                     var h = data.height;
                     var orientation = data.orientation;
                     var id = data.id;
+                    if(picFlag[id]){return;};
+                    picFlag[id] = id;
                     var img = new Image();
                     img.src = data.url;
-                    img.onload = function(){
+                    img.onerror = function(){
+                        chrome.tabs.executeScript(null,
+                        {
+                                code:"(function(){"+
+                                        "var ele = document.getElementById('"+id+"');"+
+                                        "if(!ele){return;};"+
+                                        "document.body.removeChild(ele);"+
+                                    "})();"
+                                }
+                        );
+                    };
 
+                    img.onload = function(){
+                        console.log(id+'-onload');
                         var canvas = document.createElement('canvas');
                         switch(orientation){
                             case 90:
@@ -209,6 +270,7 @@
                                 w = w - h ;
                             break;
                         };
+
                         canvas.width = w;
                         canvas.height = h;
                         var ctx = canvas.getContext('2d');
@@ -223,43 +285,29 @@
                             break;
                         };
                         ctx.drawImage(img,x,y,w,h);
-                        base64['$'+data.id] = canvas.toDataURL();
-                    }; 
-
-                break;
-                case 'dragend':
-                    chrome.tabs.executeScript(null,
-                        {
-                            code:"(function(){"+
-                                    "var ele = document.getElementById('"+data.id+"');"+
-                                    "if(!ele){return;};"+
-                                    "ele.src = 'http://web.snappea.com/images/loading.gif';"+
-                                    "ele.style.width = '24px';"+
-                                    "ele.style.height = '24px';"+
-                                "})();"
-                            }
-                    );
-
-                    var changeImg = function(){
-                        if(!base64['$'+data.id]){
-                            setTimeout(changeImg,10);
-                        }else{
-                            chrome.tabs.executeScript(null,
-                                {
-                                    code:"(function(){"+
-                                            "var ele = document.getElementById('"+data.id+"');"+
-                                            "ele.src = '"+ base64['$'+data.id] +"';"+
+                        base64['$'+id] = canvas.toDataURL();
+                        chrome.tabs.executeScript(null,
+                            {
+                                code:"setTimeout(function(){"+
+                                        "var getEle = function(){"+
+                                            "var ele = document.getElementById('"+id+"');"+
+                                            "console.log(!ele);"+
+                                            "if(!ele){setTimeout(getEle,500);return;};"+
+                                            "ele.className = '';"+
+                                            "ele.src = '"+ base64['$'+id] +"';"+
                                             "ele.style.width = '"+data.width+"px';"+
                                             "ele.style.height = '"+data.height+"px';"+
                                             "ele.id = '';"+
-                                        "})();"
-                                    }
-                            );
-                        };
+                                        "};"+
+                                        "getEle();"+
+                                    "},500);"
+                                }
+                        );
+                        picFlag[id] = null;
+                        base64['$'+id] = null;
+                        canvas = null;
+                        ctx = null;
                     };
-
-                    changeImg();
-                    
                 break;
             }
 
@@ -297,9 +345,7 @@
                                     "if(ele){return;};"+
                                     "var jele = $(\""+tpl+"\").css('top',-355);"+
                                     "$('body').append(jele);"+
-                                    "setTimeout(function(){"+
-                                        "jele.animate({'top':10},1200);"+
-                                    "},1000);"+
+                                    "jele.animate({'top':10},1200);"+
                                     "var getDom = function(){"+
                                         "var ele = document.getElementById('snappea-for-gmail');"+
                                         "var btn = document.getElementById('snappea-getIt');"+
