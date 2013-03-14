@@ -187,7 +187,45 @@
                     });
                 break;
                 case 'dragstart':
-                    base64['$'+data.id] = data.base64;
+                    var x = 0 ;
+                    var y = 0 ;
+                    var w = data.width;
+                    var h = data.height;
+                    var orientation = data.orientation;
+                    var id = data.id;
+                    var img = new Image();
+                    img.src = data.url;
+                    img.onload = function(){
+
+                        var canvas = document.createElement('canvas');
+                        switch(orientation){
+                            case 90:
+                            case 270:
+                                x = - w/2;
+                                y = - h/2;
+
+                                w = w + h ;
+                                h = w - h ;
+                                w = w - h ;
+                            break;
+                        };
+                        canvas.width = w;
+                        canvas.height = h;
+                        var ctx = canvas.getContext('2d');
+                        switch(orientation){
+                            case 90:
+                            case 270:
+                                ctx.translate(w/2,h/2);
+                                ctx.rotate(orientation*Math.PI/180);
+                                w = w + h ;
+                                h = w - h ;
+                                w = w - h ;                        
+                            break;
+                        };
+                        ctx.drawImage(img,x,y,w,h);
+                        base64['$'+data.id] = canvas.toDataURL();
+                    }; 
+
                 break;
                 case 'dragend':
                     chrome.tabs.executeScript(null,
@@ -211,8 +249,8 @@
                                     code:"(function(){"+
                                             "var ele = document.getElementById('"+data.id+"');"+
                                             "ele.src = '"+ base64['$'+data.id] +"';"+
-                                            "ele.style.width = '"+data.width*2+"px';"+
-                                            "ele.style.height = '"+data.height*2+"px';"+
+                                            "ele.style.width = '"+data.width+"px';"+
+                                            "ele.style.height = '"+data.height+"px';"+
                                             "ele.id = '';"+
                                         "})();"
                                     }

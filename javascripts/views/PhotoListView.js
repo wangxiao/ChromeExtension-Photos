@@ -16,6 +16,7 @@
                     src : this.model.get('thumbnail_path')
                 });
                 imgNum ++ ;
+                
                 //增加loading背景图，可能会增加性能问题
                 this.$el.addClass('loading');
                 
@@ -34,7 +35,12 @@
                             height : $img[0].height * (72 / $img[0].width),
                             width : 72
                         });
-                    }
+                    };
+
+                    //为了支持拖拽至Gmail
+                    //$img.affert()
+
+
                 });
                 return this;
             },
@@ -51,56 +57,27 @@
             },
 
             dragstart : function (evt){
-                var img = new Image();
-                img.src = this.model.get('path');
+                var url = this.model.get('path');
                 var orientation = this.model.get('orientation');
-                var w = this.model.get('thumbnail_width')*2;
-                var h = this.model.get('thumbnail_height')*2;
-                var x = 0 ;
-                var y = 0 ;
-                img.onload = function(){
-                    var canvas = document.createElement('canvas');
-                    switch(orientation){
-                        case 90:
-                        case 270:
-                            x = - w/2;
-                            y = - h/2;
-
-                            w = w + h ;
-                            h = w - h ;
-                            w = w - h ;
-                        break;
-                    };
-                    canvas.width = w;
-                    canvas.height = h;
-                    var ctx = canvas.getContext('2d');
-                    switch(orientation){
-                        case 90:
-                        case 270:
-                            ctx.translate(w/2,h/2);
-                            ctx.rotate(orientation*Math.PI/180);
-                            w = w + h ;
-                            h = w - h ;
-                            w = w - h ;                        
-                        break;
-                    };
-                    ctx.drawImage(img,x,y,w,h);
-                    var base64 = canvas.toDataURL();
-                    chrome.extension.sendMessage({
-                        action : 'dragstart',
-                        data:{
-                            id : evt.target.id,
-                            base64 : base64
-                        }
-                    });
-                };        
+                var w = this.model.get('thumbnail_width')*4;
+                var h = this.model.get('thumbnail_height')*4;
+                chrome.extension.sendMessage({
+                    action : 'dragstart',
+                    data:{
+                        id : evt.target.id,
+                        orientation : orientation,
+                        width :w,
+                        height:h,
+                        url : url
+                    }
+                });
             },
 
             dragend : function (evt){
 
                 var orientation = this.model.get('orientation');
-                var w = this.model.get('thumbnail_width');
-                var h = this.model.get('thumbnail_height');
+                var w = this.model.get('thumbnail_width')*2;
+                var h = this.model.get('thumbnail_height')*2;
                 chrome.extension.sendMessage({
                     action : 'dragend',
                     data : {
