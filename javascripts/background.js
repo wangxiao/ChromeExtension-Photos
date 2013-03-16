@@ -13,7 +13,9 @@
         var num = 0;
         var tpl = "<div class=\"snapPea-pop\"><div class=\"icon saving\"></div><p class=\"saving\">Saving photo to your phone...</p></div>";
         var clickHandler = function (data) {
+            
             function savePhoto(){
+
                 num++;
                 chrome.tabs.executeScript(null,
                     {
@@ -21,30 +23,51 @@
                     }
                 );
 
-                $.ajax({
-                    url : LoginHelper.getServerURL() + '/api/v1/directive/photos/download',
-                    xhrFields: {
-                        withCredentials : true
-                    },
-                    data : {
-                        url : data.srcUrl
-                    },
-                    timeout : 1000 * 5,
-                    success : function () {
-                        chrome.tabs.executeScript(null,
-                            {
-                                code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savedone').text('Photo saved.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savedone');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
-                            }
-                        );
-                    },
-                    error : function () {
-                        chrome.tabs.executeScript(null,
-                            {
-                                code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savefailed').text('Photo save failed.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savefailed');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
-                            }
-                        );
-                    }
-                });
+                var img = new Image();
+                img.src = data.srcUrl;
+                img.onload = function(){
+                    var canvas = document.createElement('canvas');
+                    var w = img.width;
+                    var h = img.height;
+                    canvas.width = w;
+                    canvas.height = h;
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(img,0,0,w,h);
+                    var imgData = canvas.toDataURL();
+                    console.log(imgData);
+
+                    $.ajax({
+                        url : LoginHelper.getServerURL() + '/api/v1/directive/photos/upload',
+                        xhrFields: {
+                            withCredentials : true
+                        },
+                        crossDomain:true,
+                        type:'POST',
+                        data : imgData,
+                        timeout : 1000 * 5,
+                        success : function () {
+                            chrome.tabs.executeScript(null,
+                                {
+                                    code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savedone').text('Photo saved.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savedone');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
+                                }
+                            );
+                        },
+                        error : function () {
+                            chrome.tabs.executeScript(null,
+                                {
+                                    code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savefailed').text('Photo save failed.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savefailed');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
+                                }
+                            );
+                        }
+                    });
+
+
+
+                };
+
+
+
+
             };
 
             //如果未登录，则弹窗
@@ -75,13 +98,13 @@
 
         };
 
-        // chrome.contextMenus.create({
-        //     type : 'normal',
-        //     id : 'temp',
-        //     title : 'Save to phone',
-        //     contexts : ['image'],
-        //     onclick : clickHandler
-        // });
+        chrome.contextMenus.create({
+            type : 'normal',
+            id : 'temp',
+            title : 'Save to phone',
+            contexts : ['image'],
+            onclick : clickHandler
+        });
 
         var isLogin = false;
         var photos = [];
@@ -91,33 +114,43 @@
         var picFlag = {};
 
         //websocket通知图片改变
-        // var handler = function (msg) {
-        //     if (msg.type === 'photos.add') {
-        //         _.each(msg.data, function (item) {
-        //             $.ajax({
-        //                 url : LoginHelper.getServerURL() + '/api/v1/resource/photos/' + item,
-        //                 xhrFields: {
-        //                     withCredentials : true
-        //                 },
-        //                 success : function (resp) {
-        //                     photos.unshift(resp);
-        //                 }
-        //             });
-        //         });
-        //     } else if (msg.type === 'photos.remove') {
-        //         _.each(msg.data, function (item) {
+        var handler = function (msg) {
+            if (msg.type === 'photos.add') {
 
-        //             var target = _.find(photos, function (photo) {
-        //                 return photo.id === item;
-        //             });
+                chrome.tabs.executeScript(null,
+                    {
+                        code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savedone').text('Photo saved.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savedone');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
+                    }
+                );
+                photos = [];
 
-        //             if (target !== undefined) {
-        //                 var index = photos.indexOf(target);
-        //                 photos.splice(index, 1);
-        //             }
-        //         });
-        //     }
-        // };
+                // _.each(msg.data, function (item) {
+                //     $.ajax({
+                //         url : LoginHelper.getServerURL() + '/api/v1/resource/photos/' + item,
+                //         xhrFields: {
+                //             withCredentials : true
+                //         },
+                //         success : function (resp) {
+                //             photos.unshift(resp);
+                //         }
+                //     });
+                // });
+            } else if (msg.type === 'photos.remove') {
+                photos = [];
+                
+                // _.each(msg.data, function (item) {
+
+                //     var target = _.find(photos, function (photo) {
+                //         return photo.id === item;
+                //     });
+
+                //     if (target !== undefined) {
+                //         var index = photos.indexOf(target);
+                //         photos.splice(index, 1);
+                //     }
+                // });
+            }
+        };
 
         chrome.extension.onMessage.addListener(function (request, sender, callback) {
             var action = request.action;
@@ -135,7 +168,7 @@
                 case 'login':
                     LoginHelper.loginAsync(data.authCode).done(function () {
                         isLogin = true;
-                        //BackendSocket.init().on('message',handler);
+                        BackendSocket.init().on('message',handler);
                         callback(true);
                     }).fail(function () {
                         isLogin = false;
@@ -151,7 +184,7 @@
                 case 'isLogin':
                     LoginHelper.loginAsync(data.authCode).done(function () {
                         isLogin = true;
-                        photos = [];
+                        //photos = [];
                         callback(true);
                     }).fail(function () {
                         photos = [];
@@ -187,50 +220,6 @@
                         url : 'http://web.snappea.com/?ac=' + LoginHelper.getAuthCode() + '#/photos?preview=' + data.id
                     });
                 break;
-
-                // case 'mousedown':
-                //     console.log('mousedown');
-                //     var x = 0 ;
-                //     var y = 0 ;
-                //     var w = data.width;
-                //     var h = data.height;
-                //     var orientation = data.orientation;
-                //     var id = data.id;
-                //     var img = new Image();
-                //     img.src = data.url;
-                //     img.onload = function(){
-
-                //         var canvas = document.createElement('canvas');
-                //         switch(orientation){
-                //             case 90:
-                //             case 270:
-                //                 x = - w/2;
-                //                 y = - h/2;
-
-                //                 w = w + h ;
-                //                 h = w - h ;
-                //                 w = w - h ;
-                //             break;
-                //         };
-                //         canvas.width = w;
-                //         canvas.height = h;
-                //         var ctx = canvas.getContext('2d');
-                //         switch(orientation){
-                //             case 90:
-                //             case 270:
-                //                 ctx.translate(w/2,h/2);
-                //                 ctx.rotate(orientation*Math.PI/180);
-                //                 w = w + h ;
-                //                 h = w - h ;
-                //                 w = w - h ;                        
-                //             break;
-                //         };
-                //         ctx.drawImage(img,x,y,w,h);
-                //         base64['$'+data.id] = canvas.toDataURL();
-                //         canvas = null;
-                //         ctx = null;
-                //     }; 
-                // break;
 
                 case 'mousedown':
 
@@ -291,10 +280,12 @@
                                 code:"setTimeout(function(){"+
                                         "var getEle = function(){"+
                                             "var ele = document.getElementById('"+id+"');"+
-                                            "console.log(!ele);"+
                                             "if(!ele){setTimeout(getEle,500);return;};"+
                                             "ele.className = '';"+
-                                            "ele.src = '"+ base64['$'+id] +"';"+
+                                            //"ele.src = '"+ base64['$'+id] +"';"+
+                                            //"ele.src = '';"+
+                                            "ele.setAttribute('alt','123image');"+
+                                            "ele.style['background-image']='url("+base64['$'+id]+")';"+
                                             "ele.style.width = '"+data.width+"px';"+
                                             "ele.style.height = '"+data.height+"px';"+
                                             "ele.id = '';"+
@@ -316,15 +307,16 @@
 
         LoginHelper.loginAsync().done(function () {
             isLogin = true;
-            // BackendSocket.init().on('message', function (data) {
-            //     handler(data);
-            // });
+            BackendSocket.init().on('message', function (data) {
+                handler(data);
+            });
         }).fail(function () {
             isLogin = false;
         });
 
+        var ExtensionFlag = 0;
         chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
-            if(String(changeInfo.url).indexOf('mail.google.com')!=-1){
+            if(!ExtensionFlag && String(changeInfo.url).indexOf('https://mail.google.com/mail')!=-1){
 
                 var tpl = "<div id='snappea-for-gmail'>"+      
                               "<div class='header'>"+
@@ -340,7 +332,7 @@
                 chrome.tabs.executeScript(null,
                     {
                           code:"(function(){"+
-                                "if(window.localStorage.getItem('snappea-for-gmail')!='true'){"+
+                                "if((String(location.href).indexOf('https://mail.google.com/mail')!=-1) && (window.localStorage.getItem('snappea-for-gmail')!='true')){"+
                                     "var ele = document.getElementById('snappea-for-gmail');"+
                                     "if(ele){return;};"+
                                     "var jele = $(\""+tpl+"\").css('top',-355);"+

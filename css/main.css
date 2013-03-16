@@ -584,7 +584,8 @@ body {
 
 .button-logout {
     background-image: url(../images/logout.png);
-    float: left;
+    position: absolute;
+    right: 6px;
     height: 16px;
     width: 16px;
 }
