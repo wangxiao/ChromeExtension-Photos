@@ -152,7 +152,6 @@
                 case 'isLogin':
                     LoginHelper.loginAsync(data.authCode).done(function () {
                         isLogin = true;
-                        photos = [];
                         callback(true);
                     }).fail(function () {
                         photos = [];
