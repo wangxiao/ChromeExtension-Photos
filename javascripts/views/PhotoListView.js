@@ -83,9 +83,9 @@
                 this.$el = $('#photo-list');
                 this.delegateEvents();
                 this.collection = new PhotosCollection();
-
             },
             renderThread : function () {
+                var me = this ;
                 var fragment = document.createDocumentFragment();
                 var start = this.$('#photo-ctn').children().length;
                 var pageSize = 15;
@@ -103,7 +103,9 @@
                 }
                 this.$('#photo-ctn').append(fragment);
             },
+
             renderPhotos : function () {
+                var me = this;
                 $('.w-ui-loading').show();
                 this.collection.trigger('update');
 
@@ -117,6 +119,8 @@
                     phoneName.text(text);
                     $('.w-ui-loading').hide();
                 }, this);
+
+                this.collection.on('addNewPhotos', this.renderThread, this);
             },
             renderAsync : function () {
                 var deferred = $.Deferred();
@@ -142,6 +146,7 @@
                         var ele = this.$el[0];
                         if (ele.scrollTop + ele.offsetHeight + 30 >= ele.scrollHeight) {
                             this.renderThread();
+                            this.addNewPhotos();
                         }
                     }.bind(this));
 

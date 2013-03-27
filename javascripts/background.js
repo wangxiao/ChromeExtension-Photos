@@ -75,13 +75,13 @@
 
         };
 
-        // chrome.contextMenus.create({
-        //     type : 'normal',
-        //     id : 'temp',
-        //     title : 'Save to phone',
-        //     contexts : ['image'],
-        //     onclick : clickHandler
-        // });
+        chrome.contextMenus.create({
+            type : 'normal',
+            id : 'temp',
+            title : 'Save to phone',
+            contexts : ['image'],
+            onclick : clickHandler
+        });
 
         var isLogin = false;
         var photos = [];
@@ -160,27 +160,56 @@
                     });               
                 break;
                 case 'fetchPhotoList':
+                    
                     if (photos.length > 0) {
                         callback(photos);
                     } else {
-                        $.ajax({
-                            url : LoginHelper.getServerURL() + '/api/v1/resource/photos/',
-                            xhrFields: {
-                                withCredentials : true
-                            },
-                            data:{
-                                offset:0,
-                                length:99999
-                            },
-                            success : function (resp) {
-                                photos = resp;
-                                callback(resp);
-                            },
-                            error : function (resp) {
-                                callback(resp);
-                            }
-                        });
-                    }
+                        var isFirst = true ;
+                        var getPhotoData = function(offset,length,cursor){
+                            
+                            $.ajax({
+                                url : LoginHelper.getServerURL() + '/api/v1/resource/photos/',
+                                xhrFields: {
+                                    withCredentials : true
+                                },
+                                data:{
+                                    offset:offset,
+                                    length:length,
+                                    cursor:cursor
+                                },
+                                success : function (resp) {
+                                    for(var i = 0 , l = resp.length;i<l;i++){
+                                        photos.push(resp[i]);
+                                    };
+
+                                    //是否是第一次加载
+                                    if(isFirst){
+                                        callback(resp);
+                                        isFirst = false;
+                                    }else{
+                                        chrome.extension.sendMessage({
+                                            action : 'addNewPhotos',
+                                            data : photos
+                                        });
+                                    };
+
+                                    //是否数据仍未加载完
+                                    if( l === length ){
+                                        getPhotoData(0,length,resp[l-1].id);
+                                    };
+                                },
+                                error : function (resp) {
+                                    callback(resp);
+                                }
+                            });
+
+                        };
+
+                        //执行加载数据
+                        getPhotoData(0,15,'');
+
+                    };
+
                 break;
                 case 'preview':
                     chrome.tabs.create({
@@ -342,6 +371,6 @@
 
         });
 
-
+//require 的最后一个括号
     });
 }(this));

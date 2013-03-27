@@ -585,7 +585,7 @@ body {
 .button-logout {
     background-image: url(../images/logout.png);
     position: absolute;
-    right: 6px;
+    left: 212px;
     height: 16px;
     width: 16px;
 }
@@ -620,6 +620,7 @@ body {
   margin: 2px 0 6px;
   text-align: left;
   text-shadow: 0 1px 0 #fff;
+  position: relative;
 }
 
 #photo-list .phone-title .phone-name {
