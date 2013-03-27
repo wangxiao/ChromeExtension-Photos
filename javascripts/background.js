@@ -14,37 +14,53 @@
         var tpl = "<div class=\"snapPea-pop\"><div class=\"icon saving\"></div><p class=\"saving\">Saving photo to your phone...</p></div>";
         var clickHandler = function (data) {
             function savePhoto(){
-                num++;
-                chrome.tabs.executeScript(null,
-                    {
-                        code:"$('.snapPea-pop').remove();$('body').append($('"+tpl+"').addClass('snapPeaid"+num+"'));$('.snapPeaid"+num+"').slideDown();"
-                    }
-                );
 
-                $.ajax({
-                    url : LoginHelper.getServerURL() + '/api/v1/directive/photos/download',
-                    xhrFields: {
-                        withCredentials : true
-                    },
-                    data : {
-                        url : data.srcUrl
-                    },
-                    timeout : 1000 * 5,
-                    success : function () {
-                        chrome.tabs.executeScript(null,
-                            {
-                                code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savedone').text('Photo saved.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savedone');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
-                            }
-                        );
-                    },
-                    error : function () {
-                        chrome.tabs.executeScript(null,
-                            {
-                                code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savefailed').text('Photo save failed.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savefailed');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
-                            }
-                        );
-                    }
-                });
+                var img = new Image();
+                img.src = data.srcUrl;
+                img.onload = function(){
+                    var canvas = document.createElement('canvas');
+                    var w = img.width;
+                    var h = img.height;
+                    canvas.width = w;
+                    canvas.height = h;
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(img,0,0,w,h);
+                    var imgData = canvas.toDataURL();
+                    console.log(imgData);
+                    num++;
+                    chrome.tabs.executeScript(null,
+                        {
+                            code:"$('.snapPea-pop').remove();$('body').append($('"+tpl+"').addClass('snapPeaid"+num+"'));$('.snapPeaid"+num+"').slideDown();"
+                        }
+                    );
+
+                    $.ajax({
+                        url : LoginHelper.getServerURL() + '/api/v1/directive/photos/download',
+                        xhrFields: {
+                            withCredentials : true
+                        },
+                        data : {
+                            url : data.srcUrl
+                        },
+                        timeout : 1000 * 5,
+                        success : function () {
+                            chrome.tabs.executeScript(null,
+                                {
+                                    code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savedone').text('Photo saved.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savedone');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
+                                }
+                            );
+                        },
+                        error : function () {
+                            chrome.tabs.executeScript(null,
+                                {
+                                    code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savefailed').text('Photo save failed.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savefailed');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
+                                }
+                            );
+                        }
+                    });
+                //img onload结束
+                };
+
             };
 
             //如果未登录，则弹窗
