@@ -2,6 +2,9 @@
 (function (window, undefined) {
     define([], function () {
         var chrome = window.chrome;
+
+        //是否手工输入验证码
+        var isHand = false;
         var LoginView = Backbone.View.extend({
             doLogin : function (authCode) {
                 if (authCode) {
@@ -32,6 +35,9 @@
                             this.$el.show();
                             $('.i18n-error').removeClass('dn').addClass('dib');
                             _gaq.push(['_trackEvent', '登陆', '登陆失败']);
+                            if(isHand){
+                                _gaq.push(['_trackEvent', '登陆页', '手工输入authcode登陆失败']);
+                            };
                         }
                     }.bind(this));
                 } else {
@@ -39,10 +45,14 @@
                 }
             },
             clickButtonConnect : function () {
+                _gaq.push(['_trackEvent', '登陆页', '手工输入authcode登陆的用户']);
+                isHand = true;
                 this.doLogin(this.$('.input-login').val());
             },
             keyupInputLogin : function (evt) {
                 if (evt.keyCode === 13) {
+                    _gaq.push(['_trackEvent', '登陆页', '手工输入authcode登陆的用户']);
+                    isHand = true;
                     this.doLogin(this.$('.input-login').val());
                 }
             },
