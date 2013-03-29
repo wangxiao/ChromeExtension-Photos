@@ -12,92 +12,92 @@
 
         var num = 0;
         var tpl = "<div class=\"snapPea-pop\"><div class=\"icon saving\"></div><p class=\"saving\">Saving photo to your phone...</p></div>";
-        var clickHandler = function (data) {
-            function savePhoto(){
+        // var clickHandler = function (data) {
+        //     function savePhoto(){
 
-                var img = new Image();
-                img.src = data.srcUrl;
-                img.onload = function(){
-                    var canvas = document.createElement('canvas');
-                    var w = img.width;
-                    var h = img.height;
-                    canvas.width = w;
-                    canvas.height = h;
-                    var ctx = canvas.getContext('2d');
-                    ctx.drawImage(img,0,0,w,h);
-                    var imgData = canvas.toDataURL();
-                    console.log(imgData);
-                    num++;
-                    chrome.tabs.executeScript(null,
-                        {
-                            code:"$('.snapPea-pop').remove();$('body').append($('"+tpl+"').addClass('snapPeaid"+num+"'));$('.snapPeaid"+num+"').slideDown();"
-                        }
-                    );
+        //         var img = new Image();
+        //         img.src = data.srcUrl;
+        //         img.onload = function(){
+        //             var canvas = document.createElement('canvas');
+        //             var w = img.width;
+        //             var h = img.height;
+        //             canvas.width = w;
+        //             canvas.height = h;
+        //             var ctx = canvas.getContext('2d');
+        //             ctx.drawImage(img,0,0,w,h);
+        //             var imgData = canvas.toDataURL();
+        //             console.log(imgData);
+        //             num++;
+        //             chrome.tabs.executeScript(null,
+        //                 {
+        //                     code:"$('.snapPea-pop').remove();$('body').append($('"+tpl+"').addClass('snapPeaid"+num+"'));$('.snapPeaid"+num+"').slideDown();"
+        //                 }
+        //             );
 
-                    $.ajax({
-                        url : LoginHelper.getServerURL() + '/api/v1/directive/photos/download',
-                        xhrFields: {
-                            withCredentials : true
-                        },
-                        data : {
-                            url : data.srcUrl
-                        },
-                        timeout : 1000 * 5,
-                        success : function () {
-                            chrome.tabs.executeScript(null,
-                                {
-                                    code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savedone').text('Photo saved.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savedone');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
-                                }
-                            );
-                        },
-                        error : function () {
-                            chrome.tabs.executeScript(null,
-                                {
-                                    code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savefailed').text('Photo save failed.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savefailed');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
-                                }
-                            );
-                        }
-                    });
-                //img onload结束
-                };
+        //             $.ajax({
+        //                 url : LoginHelper.getServerURL() + '/api/v1/directive/photos/download',
+        //                 xhrFields: {
+        //                     withCredentials : true
+        //                 },
+        //                 data : {
+        //                     url : data.srcUrl
+        //                 },
+        //                 timeout : 1000 * 5,
+        //                 success : function () {
+        //                     chrome.tabs.executeScript(null,
+        //                         {
+        //                             code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savedone').text('Photo saved.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savedone');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
+        //                         }
+        //                     );
+        //                 },
+        //                 error : function () {
+        //                     chrome.tabs.executeScript(null,
+        //                         {
+        //                             code:"$('.snapPeaid"+num+" p').removeClass('saving').addClass('savefailed').text('Photo save failed.');$('.snapPeaid"+num+" .icon').removeClass('saving').addClass('savefailed');setTimeout(function(){$('.snapPea-pop').remove();},1000);"
+        //                         }
+        //                     );
+        //                 }
+        //             });
+        //         //img onload结束
+        //         };
 
-            };
+        //     };
 
-            //如果未登录，则弹窗
-            var isOurWin = false;
-            if(!LoginHelper.getAuthCode()){
-                var top = window.screen.availHeight/2-300;
-                var left = window.screen.availWidth/2-200;
-                isOurWin = true;
-                chrome.windows.create({
-                    url:'../pages/popup.html',
-                    width: 255,
-                    height: 340,
-                    top:top,
-                    left:left,
-                    focused:true,
-                    type:"panel"
-                },function(){
-                    chrome.windows.onRemoved.addListener(function(){
-                        if(isOurWin){
-                          setTimeout(savePhoto,100);
-                          isOurWin = false; 
-                        };
-                    });
-                });
-            }else{
-                savePhoto();
-            };
+        //     //如果未登录，则弹窗
+        //     var isOurWin = false;
+        //     if(!LoginHelper.getAuthCode()){
+        //         var top = window.screen.availHeight/2-300;
+        //         var left = window.screen.availWidth/2-200;
+        //         isOurWin = true;
+        //         chrome.windows.create({
+        //             url:'../pages/popup.html',
+        //             width: 255,
+        //             height: 340,
+        //             top:top,
+        //             left:left,
+        //             focused:true,
+        //             type:"panel"
+        //         },function(){
+        //             chrome.windows.onRemoved.addListener(function(){
+        //                 if(isOurWin){
+        //                   setTimeout(savePhoto,100);
+        //                   isOurWin = false; 
+        //                 };
+        //             });
+        //         });
+        //     }else{
+        //         savePhoto();
+        //     };
 
-        };
+        // };
 
-        chrome.contextMenus.create({
-            type : 'normal',
-            id : 'temp',
-            title : 'Save to phone',
-            contexts : ['image'],
-            onclick : clickHandler
-        });
+        // chrome.contextMenus.create({
+        //     type : 'normal',
+        //     id : 'temp',
+        //     title : 'Save to phone',
+        //     contexts : ['image'],
+        //     onclick : clickHandler
+        // });
 
         var isLogin = false;
         var photos = [];
@@ -166,11 +166,11 @@
                     callback();
                 break;
                 case 'isLogin':
+                    photos = [];
                     LoginHelper.loginAsync(data.authCode).done(function () {
                         isLogin = true;
                         callback(true);
                     }).fail(function () {
-                        photos = [];
                         isLogin = false;
                         callback(false);
                     });               

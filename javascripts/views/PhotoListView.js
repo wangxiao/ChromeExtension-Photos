@@ -8,6 +8,7 @@
         var document = window.document;
         var chrome = window.chrome;
         var imgNum = 0;
+        var isFirst = true;
         var PhotoItemView = Backbone.View.extend({
             className : 'w-photo-item',
             tagName : 'li',
@@ -26,14 +27,20 @@
                     var withLtHeight = $img[0].width > $img[0].height;
 
                     if (withLtHeight) {
+                        var w = $img[0].width * (72 / $img[0].height);
                         $img.css({
                             height : 72,
-                            width : $img[0].width * (72 / $img[0].height)
+                            width : w,
+                            left : -(w-72)/2,
+                            top : 0
                         });
                     } else {
+                        var h = $img[0].height * (72 / $img[0].width);
                         $img.css({
-                            height : $img[0].height * (72 / $img[0].width),
-                            width : 72
+                            height : h,
+                            width : 72,
+                            left : 0,
+                            top : -(h-72)/2
                         });
                     };
 
@@ -102,6 +109,10 @@
                     }
                 }
                 this.$('#photo-ctn').append(fragment);
+                if(isFirst && this.$('#photo-ctn').children().length === 0){
+                    $('#no-photo').show();
+                    isFirst = false;
+                };
             },
 
             renderPhotos : function () {

@@ -580,6 +580,16 @@ body {
   text-align: center;
   width: 72px;
   -webkit-transition: -webkit-transform .2s;
+  position: relative;
+}
+
+#photo-ctn li img{
+  margin: 0 auto;
+  position: absolute;
+}
+
+#no-photo{
+  margin-top: 45%;
 }
 
 .button-logout {
