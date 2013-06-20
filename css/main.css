@@ -612,9 +612,16 @@ body {
     width: 16px;
     height: 16px;
     position: absolute;
-    left: 194px;
-    bottom: 1px;
+    left: 189px;
     background: url('../images/device.png') no-repeat center;
+}
+
+.show-device-list:hover {
+    background-image: url('../images/device_h.png');
+}
+
+.show-device-list:active {
+    background-image: url('../images/device_p.png');
 }
 
 .button-refresh {
@@ -698,7 +705,7 @@ left: -62px;
     height: 16px;
     display: inline-block;
     vertical-align: middle;
-    background: url('../images/google-btn.png') no-repeat center; 
+    background: url('../images/google_btn.png') no-repeat center; 
 }
 
 /* CSS 样式模块化 */

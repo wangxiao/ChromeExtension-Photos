@@ -56,16 +56,16 @@
                     
                     $('.i18n-title').text(g("LOGIN_TITLE"));
 
-                    $('.sign-in-text').text(g("LOGIN_TEXT")).click(function(){
-                        _gaq.push(['_trackEvent', '登陆页', '登陆']);
-                    });
+                    $('.sign-in-text').text(g("LOGIN_TEXT"));
 
                     $('.i18n-des').text(g("LOGIN_DES"));
 
                     $('.sign-in-button').click(function() {
                         chrome.tabs.create({
                             url : g('SIGN_IN_URL')
-                        })
+                        });
+
+                        _gaq.push(['_trackEvent', '登录页', '登录']);
                     });
 
                     //点图片，打开google play地址
