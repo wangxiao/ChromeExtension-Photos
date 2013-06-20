@@ -101,6 +101,7 @@
 
         var isLogin = false;
         var photos = [];
+        var i18n = chrome.i18n.getMessage;
 
         //当前拖拽的图片base64信息
         var base64 = {};
@@ -149,16 +150,6 @@
                     response = LoginHelper.getServerURL();
                     callback(response);
                 break;
-                case 'login':
-                    LoginHelper.loginAsync(data.authCode).done(function () {
-                        isLogin = true;
-                        BackendSocket.init().on('message',handler);
-                        callback(true);
-                    }).fail(function () {
-                        isLogin = false;
-                        callback(false);
-                    });
-                break;
                 case 'logout':
                     photos = [];
                     LoginHelper.logout();
@@ -167,13 +158,9 @@
                 break;
                 case 'isLogin':
                     photos = [];
-                    LoginHelper.loginAsync(data.authCode).done(function () {
-                        isLogin = true;
-                        callback(true);
-                    }).fail(function () {
-                        isLogin = false;
-                        callback(false);
-                    });               
+                    var authCode = window.localStorage.getItem('wdj-google-token');
+
+                    callback(authCode && authCode !== undefined ? true : false);              
                 break;
                 case 'fetchPhotoList':
                     
@@ -229,7 +216,7 @@
                 break;
                 case 'preview':
                     chrome.tabs.create({
-                        url : 'http://web.snappea.com/?ac=' + LoginHelper.getAuthCode() + '#/photos?preview=' + data.id
+                        url : i18n('SNAPPEA_HOST') + '?ac=' + LoginHelper.getAuthCode() + '#/photos?preview=' + data.id
                     });
                 break;
 
@@ -315,13 +302,13 @@
 
             return true;
         });
-
-        LoginHelper.loginAsync().done(function () {
+        
+        LoginHelper.login().done(function() {
             isLogin = true;
             BackendSocket.init().on('message', function (data) {
                 handler(data);
             });
-        }).fail(function () {
+        }).fail(function() {
             isLogin = false;
         });
 

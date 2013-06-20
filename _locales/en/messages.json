@@ -7,11 +7,25 @@
         "message" : "A very fast way to access photos on your Android phone.",
         "description" : "Extension description"
     },
-    "login_title":{"message":"SnapPea Photos"},
-    "login_passBg":{"message":"Passcode"},
-    "login_login":{"message":"Sign in"},
-    "login_howToGet":{"message":"Where's my passcode?"},
-    "login_htg_url":{"message":"http://web.snappea.com#/portal/getstarted"},    
-    "login_des":{"message":"To get your passcode, install SnapPea on your phone. It's free."},
-    "login_gplay":{"message":"https://play.google.com/store/apps/details?id=com.snappea"}    
+    "LOGIN_TITLE":{
+        "message":"SnapPea Photos"
+    },
+    "LOGIN_TEXT":{
+        "message":"Sign in with Google"
+    },
+    "LOGIN_DES":{
+        "message":"To get started, install SnapPea on your phone. It's free."
+    },
+    "LOGIN_GPLAY":{
+        "message":"https://play.google.com/store/apps/details?id=com.snappea"
+    },
+    "SNAPPEA_HOST" : {
+        "message" : "http://web.snappea.com/"
+    },
+    "DEVICE_LIST_URL" : {
+        "message" : "http://web.snappea.com/#/devices"
+    },
+    "SIGN_IN_URL" : {
+        "message" : "http://web.snappea.com/"
+    }
 }

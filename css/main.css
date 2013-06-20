@@ -608,6 +608,15 @@ body {
   background-image: url(../images/logout_p.png);
 }
 
+.show-device-list {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    left: 194px;
+    bottom: 1px;
+    background: url('../images/device.png') no-repeat center;
+}
+
 .button-refresh {
   background-image: url(../images/reload.png);
   display: none;
@@ -674,6 +683,22 @@ left: -62px;
 .loading{
   background:url('../images/gif_loading.gif') no-repeat scroll 50% 50%;
   background-color: #F5F5F5;
+}
+.sign-in-wrapper {
+    margin: 42px auto auto auto;
+    text-align: center;
+}
+.sign-in-button {
+    width: 160px;
+    height: 35px;
+    cursor: pointer;
+}
+.sign-in-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    background: url('../images/google-btn.png') no-repeat center; 
 }
 
 /* CSS 样式模块化 */
