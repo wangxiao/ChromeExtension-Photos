@@ -25,13 +25,25 @@
             });
         };
         $('.w-ui-loading').show();
+
+
         chrome.extension.sendMessage({
-            action : 'isLogin',
-            data : {'authCode' : window.localStorage.getItem('wdj-server-authCode')}            
+            action : 'isLogin'
         }, function (resp) {
             $('.w-ui-loading').hide();
+            var g = chrome.i18n.getMessage;
+
             if (resp) {
-                renderList.call(this);
+                var deviceIp = window.localStorage.getItem('wdj-device-ip');
+
+                if (deviceIp && deviceIp != undefined) {
+                    renderList.call(this);
+                } else {
+                    chrome.tabs.create({
+                        url : g('DEVICE_LIST_URL')
+                    });
+                }
+                
             } else {
                 var loginView = new LoginView();
 
@@ -41,41 +53,32 @@
                     window.localStorage.setItem('wdj-server-authCode','');
                     
                     //支持国际化，后期可以重构为前端模板
-                    var g = chrome.i18n.getMessage;
-                    $('.i18n-title').text(g("login_title"));
-                    $('.i18n-passBg').focus().attr("placeholder",g("login_passBg"));
-                    $('.i18n-login').text(g("login_login")).on('click',function(){
-                        _gaq.push(['_trackEvent', '登陆页', '登陆']);
-                    });
+                    
+                    $('.i18n-title').text(g("LOGIN_TITLE"));
 
-                    $('.i18n-htg').text(g("login_howToGet"));
-                    $('.i18n-des').text(g("login_des"));
+                    $('.sign-in-text').text(g("LOGIN_TEXT"));
 
-                    //如何获取验证码链接
-                    $('.i18n-htg').on('click',function(){
-                        chrome.tabs.create({url : g("login_htg_url")});
-                        _gaq.push(['_trackEvent', '登陆页', '点击如何获取验证码']);
+                    $('.i18n-des').text(g("LOGIN_DES"));
+
+                    $('.sign-in-button').click(function() {
+                        chrome.tabs.create({
+                            url : g('SIGN_IN_URL')
+                        });
+
+                        _gaq.push(['_trackEvent', '登录页', '登录']);
                     });
 
                     //点图片，打开google play地址
                     $('.i18n-gplay').on('click',function(){
-                        chrome.tabs.create({url : g("login_gplay")});
-                    });
-
-                    $('.error-more').on('click',function(){
-                        chrome.tabs.create({url : "http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web"});
-                    });
-
-                    $('i18n-gplay').on('click',function(){
                         _gaq.push(['_trackEvent', '登陆页', '前往Google play']);
+                        chrome.tabs.create({url : g("LOGIN_GPLAY")});
                     });
+
                 });
 
-                loginView.once('login', function () {
-                    renderList.call(this);
-                });
             }
         });
+        
     });
 
 }(this));
