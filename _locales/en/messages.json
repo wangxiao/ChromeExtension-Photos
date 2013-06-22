@@ -13,12 +13,6 @@
     "LOGIN_TEXT":{
         "message":"Sign in with Google"
     },
-    "LOGIN_DES":{
-        "message":"To get started, install SnapPea on your phone. It's free."
-    },
-    "LOGIN_GPLAY":{
-        "message":"https://play.google.com/store/apps/details?id=com.snappea"
-    },
     "SNAPPEA_HOST" : {
         "message" : "http://web.snappea.com/"
     },
