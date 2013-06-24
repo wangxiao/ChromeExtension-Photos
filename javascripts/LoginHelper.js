@@ -9,6 +9,8 @@
             PROTOCPL : 'http://'
         };
 
+        var i18n = chrome.i18n.getMessage;
+        
         function clearAccountStorage() {
             localStorage.setItem('wdj-server-authCode', '');
             localStorage.setItem('wdj-phone-name', '');
@@ -19,8 +21,6 @@
         return {
             login : function (number) {
                 var defer = $.Deferred();
-
-                var i18n = chrome.i18n.getMessage;
 
                 chrome.runtime.onMessage.addListener(
                     function(request, sender, sendResponse) {
@@ -51,7 +51,9 @@
                 return defer.promise();
             },
             logout : function () {
-                clearAccountStorage();
+                chrome.tabs.create({
+                    url : i18n('SIGN_OUT_URL')
+                });
             },
 
             getServerHost : function () {

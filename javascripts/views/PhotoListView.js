@@ -157,7 +157,6 @@
                         var ele = this.$el[0];
                         if (ele.scrollTop + ele.offsetHeight + 30 >= ele.scrollHeight) {
                             this.renderThread();
-                            this.addNewPhotos();
                         }
                     }.bind(this));
 

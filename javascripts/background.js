@@ -153,7 +153,6 @@
                 case 'logout':
                     photos = [];
                     LoginHelper.logout();
-                    isLogin = false;
                     callback();
                 break;
                 case 'isLogin':
@@ -195,10 +194,9 @@
                                             data : photos
                                         });
                                     };
-
                                     //是否数据仍未加载完
                                     if( l === length ){
-                                        getPhotoData(0,length,resp[l-1].id);
+                                        getPhotoData(photos.length, length, ''); 
                                     };
                                 },
                                 error : function (resp) {
@@ -209,7 +207,7 @@
                         };
 
                         //执行加载数据
-                        getPhotoData(0,15,'');
+                        getPhotoData(0, 15, '');
 
                     };
 

@@ -14,12 +14,15 @@
         "message":"Sign in with Google"
     },
     "SNAPPEA_HOST" : {
-        "message" : "http://web.snappea.com/"
+        "message" : "http://192.168.100.24:3000/"
     },
     "DEVICE_LIST_URL" : {
-        "message" : "http://web.snappea.com/#/devices"
+        "message" : "http://192.168.100.24:3000/#/devices"
     },
     "SIGN_IN_URL" : {
-        "message" : "http://web.snappea.com/"
+        "message" : "http://192.168.100.24:3000/"
+    },
+    "SIGN_OUT_URL" : {
+        "message" : "http://192.168.100.24:3000/#/extension-signout"
     }
 }
