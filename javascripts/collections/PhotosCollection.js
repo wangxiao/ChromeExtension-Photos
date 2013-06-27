@@ -44,8 +44,6 @@
                                 };
                             },
                             error : function (resp) {
-                                me.set(resp);
-                                me.trigger('refresh', me);
                             }
                         });
 
