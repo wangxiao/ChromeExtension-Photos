@@ -21,5 +21,8 @@
     },
     "SIGN_IN_URL" : {
         "message" : "http://web.snappea.com/"
+    },
+    "SIGN_OUT_URL" : {
+        "message" : "http://web.snappea.com/#/extension-signout"
     }
 }

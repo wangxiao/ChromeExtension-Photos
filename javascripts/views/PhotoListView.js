@@ -157,7 +157,6 @@
                         var ele = this.$el[0];
                         if (ele.scrollTop + ele.offsetHeight + 30 >= ele.scrollHeight) {
                             this.renderThread();
-                            this.addNewPhotos();
                         }
                     }.bind(this));
 
@@ -185,10 +184,13 @@
             showDeviceList : function() {
                 _gaq.push(['_trackEvent', '图片页面', '切换多设备']);   
                 
-                var i18n = chrome.i18n.getMessage;             
-                chrome.tabs.create({
-                    url : i18n('DEVICE_LIST_URL')
-                })
+                var i18n = chrome.i18n.getMessage;
+                
+                chrome.extension.sendMessage({
+                    action : 'createTab',
+                    data : i18n('DEVICE_LIST_URL')
+                });
+                
             },
             events: {
                 'click .button-logout' : 'clickButtonLogout',

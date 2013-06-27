@@ -137,6 +137,29 @@
             // }
         };
 
+        var createChromeTab = function(url) {
+            chrome.tabs.query({
+                url : i18n('SNAPPEA_HOST') + '*'
+            }, function(tabs) {
+                if (tabs.length) {
+                    var hasSelected = _.find(tabs, function(item) {
+                        return item.selected;
+                    });
+
+                    _.each(tabs, function(item, index) {
+                        chrome.tabs.update(item.id, {
+                            url : url,
+                            active : hasSelected ? item.selected : (index == tabs.length - 1 ? true : false)
+                        });
+                    });
+                } else {
+                    chrome.tabs.create({
+                        url : url
+                    });
+                }
+            });
+        }
+
         chrome.extension.onMessage.addListener(function (request, sender, callback) {
             var action = request.action;
             var data = request.data;
@@ -151,73 +174,22 @@
                     callback(response);
                 break;
                 case 'logout':
-                    photos = [];
                     LoginHelper.logout();
-                    isLogin = false;
                     callback();
                 break;
                 case 'isLogin':
-                    photos = [];
                     var authCode = window.localStorage.getItem('wdj-google-token');
 
                     callback(authCode && authCode !== undefined ? true : false);              
                 break;
-                case 'fetchPhotoList':
-                    
-                    if (photos.length > 0) {
-                        callback(photos);
-                    } else {
-                        var isFirst = true ;
-                        var getPhotoData = function(offset,length,cursor){
-                            
-                            $.ajax({
-                                url : LoginHelper.getServerURL() + '/api/v1/resource/photos/',
-                                xhrFields: {
-                                    withCredentials : true
-                                },
-                                data:{
-                                    offset:offset,
-                                    length:length,
-                                    cursor:cursor
-                                },
-                                success : function (resp) {
-                                    for(var i = 0 , l = resp.length;i<l;i++){
-                                        photos.push(resp[i]);
-                                    };
 
-                                    //是否是第一次加载
-                                    if(isFirst){
-                                        callback(resp);
-                                        isFirst = false;
-                                    }else{
-                                        chrome.extension.sendMessage({
-                                            action : 'addNewPhotos',
-                                            data : photos
-                                        });
-                                    };
-
-                                    //是否数据仍未加载完
-                                    if( l === length ){
-                                        getPhotoData(0,length,resp[l-1].id);
-                                    };
-                                },
-                                error : function (resp) {
-                                    callback(resp);
-                                }
-                            });
-
-                        };
-
-                        //执行加载数据
-                        getPhotoData(0,15,'');
-
-                    };
-
+                case 'createTab' : 
+                    createChromeTab(data);
                 break;
+
                 case 'preview':
-                    chrome.tabs.create({
-                        url : i18n('SNAPPEA_HOST') + '?ac=' + LoginHelper.getAuthCode() + '#/photos?preview=' + data.id
-                    });
+                    var previewUrl = i18n('SNAPPEA_HOST') + '?ac=' + LoginHelper.getAuthCode() + '#/photos?preview=' + data.id;
+                    createChromeTab(previewUrl);
                 break;
 
                 // case 'mousedown':
