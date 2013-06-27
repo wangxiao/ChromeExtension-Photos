@@ -39,8 +39,9 @@
                 if (deviceIp && deviceIp != undefined) {
                     renderList.call(this);
                 } else {
-                    chrome.tabs.create({
-                        url : g('DEVICE_LIST_URL')
+                    chrome.extension.sendMessage({
+                        action : 'createTab',
+                        data : g('DEVICE_LIST_URL')
                     });
                 }
                 
@@ -61,17 +62,12 @@
                     $('.i18n-des').text(g("LOGIN_DES"));
 
                     $('.sign-in-button').click(function() {
-                        chrome.tabs.create({
-                            url : g('SIGN_IN_URL')
+                        chrome.extension.sendMessage({
+                            action : 'createTab',
+                            data : g('SIGN_IN_URL')
                         });
 
                         _gaq.push(['_trackEvent', '登录页', '登录']);
-                    });
-
-                    //点图片，打开google play地址
-                    $('.i18n-gplay').on('click',function(){
-                        _gaq.push(['_trackEvent', '登陆页', '前往Google play']);
-                        chrome.tabs.create({url : g("LOGIN_GPLAY")});
                     });
 
                 });

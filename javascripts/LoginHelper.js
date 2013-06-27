@@ -51,8 +51,9 @@
                 return defer.promise();
             },
             logout : function () {
-                chrome.tabs.create({
-                    url : i18n('SIGN_OUT_URL')
+                chrome.extension.sendMessage({
+                    action : 'createTab',
+                    data : i18n('SIGN_OUT_URL')
                 });
             },
 
