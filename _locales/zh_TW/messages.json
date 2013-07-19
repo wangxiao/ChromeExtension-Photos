@@ -17,15 +17,15 @@
 		"message":"無照片"
 	},
 	"SNAPPEA_HOST":{
-		"message":"http:\/\/web.snappea.com\/"
+		"message":"http://web.snappea.com/"
 	},
 	"DEVICE_LIST_URL":{
-		"message":"http:\/\/web.snappea.com\/#\/devices"
+		"message":"http://web.snappea.com/#/devices"
 	},
 	"SIGN_IN_URL":{
-		"message":"http:\/\/web.snappea.com\/"
+		"message":"http://web.snappea.com/"
 	},
 	"SIGN_OUT_URL":{
-		"message":"http:\/\/web.snappea.com\/#\/extension-signout"
+		"message":"http://web.snappea.com/#/extension-signout"
 	}
 }
