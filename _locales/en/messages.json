@@ -7,11 +7,14 @@
         "message" : "A very fast way to access photos on your Android phone.",
         "description" : "Extension description"
     },
-    "LOGIN_TITLE":{
-        "message":"SnapPea Photos"
+    "LOGIN_TEXT": {
+        "message" : "Sign in with Google"
     },
-    "LOGIN_TEXT":{
-        "message":"Sign in with Google"
+    "CONNECT_PHONT_TEXT" : {
+        "message" : "Checking phone connection..."
+    },
+    "NO_PHOTOS_TEXT" : {
+        "message" : "no photo"
     },
     "SNAPPEA_HOST" : {
         "message" : "http://web.snappea.com/"

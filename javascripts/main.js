@@ -32,6 +32,7 @@
         }, function (resp) {
             $('.w-ui-loading').hide();
             var g = chrome.i18n.getMessage;
+            $('.connecting-phone').text(g('CONNECT_PHONT_TEXT'));
 
             if (resp) {
                 var deviceIp = window.localStorage.getItem('wdj-device-ip');
@@ -55,11 +56,7 @@
                     
                     //支持国际化，后期可以重构为前端模板
                     
-                    $('.i18n-title').text(g("LOGIN_TITLE"));
-
                     $('.sign-in-text').text(g("LOGIN_TEXT"));
-
-                    $('.i18n-des').text(g("LOGIN_DES"));
 
                     $('.sign-in-button').click(function() {
                         chrome.extension.sendMessage({

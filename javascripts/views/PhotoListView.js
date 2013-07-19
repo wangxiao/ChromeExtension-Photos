@@ -9,6 +9,7 @@
         var chrome = window.chrome;
         var imgNum = 0;
         var isFirst = true;
+        var i18n = chrome.i18n.getMessage;
         var PhotoItemView = Backbone.View.extend({
             className : 'w-photo-item',
             tagName : 'li',
@@ -110,7 +111,8 @@
                 }
                 this.$('#photo-ctn').append(fragment);
                 if(isFirst && this.$('#photo-ctn').children().length === 0){
-                    $('#no-photo').show();
+                    $('#no-photo').text(i18n('NO_PHOTOS_TEXT'))
+                                  .show();
                     isFirst = false;
                 };
             },
@@ -182,9 +184,7 @@
                 });
             },
             showDeviceList : function() {
-                _gaq.push(['_trackEvent', '图片页面', '切换多设备']);   
-                
-                var i18n = chrome.i18n.getMessage;
+                _gaq.push(['_trackEvent', '图片页面', '切换多设备']);
                 
                 chrome.extension.sendMessage({
                     action : 'createTab',
