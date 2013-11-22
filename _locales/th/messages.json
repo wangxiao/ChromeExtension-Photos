@@ -1,0 +1,31 @@
+{
+	"EXT_NAME":{
+		"message":"รูปถ่าย SnapPea",
+		"description":"Extension name"
+	},
+	"EXT_DESC":{
+		"message":"วิธีการที่รวดเร็วในการเข้าถึงรูปถ่ายบนโทรศัพท์แอนดรอยด์ของคุณ",
+		"description":"Extension description"
+	},
+	"LOGIN_TEXT":{
+		"message":"ลงชื่อเข้าใช้กับกูเกิล"
+	},
+	"CONNECT_PHONT_TEXT":{
+		"message":"กำลังตรวจสอบการเชื่อมต่อของโทรศัพท์..."
+	},
+	"NO_PHOTOS_TEXT":{
+		"message":"ไม่มีรูปถ่าย"
+	},
+	"SNAPPEA_HOST":{
+		"message":"http://web.snappea.com/"
+	},
+	"DEVICE_LIST_URL":{
+		"message":"http://web.snappea.com/#/devices"
+	},
+	"SIGN_IN_URL":{
+		"message":"http://web.snappea.com/"
+	},
+	"SIGN_OUT_URL":{
+		"message":"http://web.snappea.com/#/extension-signout"
+	}
+}

@@ -1,0 +1,31 @@
+{
+	"EXT_NAME":{
+		"message":"SnapPea-Fotos",
+		"description":"Extension name"
+	},
+	"EXT_DESC":{
+		"message":"Eine sehr schnelle Möglichkeit, um auf Ihrem Android-Handy auf Fotos zuzugreifen.",
+		"description":"Extension description"
+	},
+	"LOGIN_TEXT":{
+		"message":"Anmeldung mit Google"
+	},
+	"CONNECT_PHONT_TEXT":{
+		"message":"Handyanschluss wird überprüft..."
+	},
+	"NO_PHOTOS_TEXT":{
+		"message":"Kein Foto"
+	},
+	"SNAPPEA_HOST":{
+		"message":"http://web.snappea.com/"
+	},
+	"DEVICE_LIST_URL":{
+		"message":"http://web.snappea.com/#/devices"
+	},
+	"SIGN_IN_URL":{
+		"message":"http://web.snappea.com/"
+	},
+	"SIGN_OUT_URL":{
+		"message":"http://web.snappea.com/#/extension-signout"
+	}
+}

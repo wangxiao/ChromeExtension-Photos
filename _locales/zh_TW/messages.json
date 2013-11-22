@@ -1,0 +1,31 @@
+{
+	"EXT_NAME":{
+		"message":"SnapPea照片",
+		"description":"Extension name"
+	},
+	"EXT_DESC":{
+		"message":"可在Android手機上快速訪問照片。",
+		"description":"Extension description"
+	},
+	"LOGIN_TEXT":{
+		"message":"通過Google登錄"
+	},
+	"CONNECT_PHONT_TEXT":{
+		"message":"正在檢查手機連接..."
+	},
+	"NO_PHOTOS_TEXT":{
+		"message":"無照片"
+	},
+	"SNAPPEA_HOST":{
+		"message":"http://web.snappea.com/"
+	},
+	"DEVICE_LIST_URL":{
+		"message":"http://web.snappea.com/#/devices"
+	},
+	"SIGN_IN_URL":{
+		"message":"http://web.snappea.com/"
+	},
+	"SIGN_OUT_URL":{
+		"message":"http://web.snappea.com/#/extension-signout"
+	}
+}
