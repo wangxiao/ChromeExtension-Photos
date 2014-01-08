@@ -22,9 +22,11 @@
             var photoListView = new PhotoListView();
             photoListView.renderAsync().done(function (photoListView) {
                 $('body').append(photoListView.$el);
+                
+                // chromeExtension 打开时会有个检测容器高度的 bug
                 setTimeout(function() {
                     $('body').height(349);
-                });
+                }, 100);
             });
         };
         $('.w-ui-loading').show();
@@ -51,16 +53,16 @@
                 
             } else {
                 var loginView = new LoginView();
-
                 loginView.renderAsync().done(function (loginView) {
-                    $('body').height(209);
                     $('body').append(loginView.$el);
                     window.localStorage.setItem('wdj-server-authCode','');
-                    
-                    //支持国际化，后期可以重构为前端模板
-                    
-                    $('.sign-in-text').text(g('LOGIN_TEXT'));
 
+                    // chromeExtension 打开时会有个检测容器高度的 bug
+                    setTimeout(function() {
+                        $('body').height(209);
+                    }, 100);
+                    //支持国际化，后期可以重构为前端模板
+                    $('.sign-in-text').text(g('LOGIN_TEXT'));
                     $('.sign-in-button').click(function() {
                         chrome.extension.sendMessage({
                             action : 'createTab',
