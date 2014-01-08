@@ -1,6 +1,6 @@
 {
   "name": "__MSG_EXT_NAME__",
-  "version": "1.5",
+  "version": "1.6",
   "manifest_version": 2,
   "description": "__MSG_EXT_DESC__",
   "default_locale" : "en",
@@ -25,8 +25,7 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["javascripts/libraries/jquery-1.8.3.min.js","javascripts/injection.js"],
-      "css" : ["css/injection.css"]
+      "js": ["javascripts/libraries/jquery-1.8.3.min.js","javascripts/injection.js"]
     }, {
         "matches": ["http://web.snappea.com/*"],
         "js": ["javascripts/InjectedScanner.js"]

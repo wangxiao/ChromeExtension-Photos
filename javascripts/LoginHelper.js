@@ -12,33 +12,30 @@
         var i18n = chrome.i18n.getMessage;
         
         function clearAccountStorage() {
-            localStorage.setItem('wdj-server-authCode', '');
-            localStorage.setItem('wdj-phone-name', '');
-            localStorage.setItem('wdj-device-ip', '');
-            localStorage.setItem('wdj-google-token', '');
+            localStorage.removeItem('wdj-server-authCode', '');
+            localStorage.removeItem('wdj-phone-name', '');
+            localStorage.removeItem('wdj-device-ip', '');
+            localStorage.removeItem('wdj-google-token', '');
         }
 
         return {
             login : function (number) {
                 var defer = $.Deferred();
-
                 chrome.runtime.onMessage.addListener(
                     function(request, sender, sendResponse) {
                         if (sender.tab && sender.tab.url.indexOf(i18n('SNAPPEA_HOST')) != -1) {
                             var authData = request.data;
-                            if (authData.googleToken) {
+                            if (authData.signInFlag) {
                                 defer.resolve();
-
-                                localStorage.setItem('wdj-google-token', authData.googleToken.length ? authData.googleToken : '');
-                                if (authData.currentDevice) {
-                                    var currentDevice = JSON.parse(authData.currentDevice);
-                                    
+                                localStorage.setItem('wdj-google-token', authData.signInFlag);
+                                if (authData.currentDevice && authData.currentDevice.ip) {
+                                    var currentDevice = authData.currentDevice;
                                     localStorage.setItem('wdj-server-authCode', currentDevice.authcode);
                                     localStorage.setItem('wdj-phone-name', currentDevice.model);
                                     localStorage.setItem('wdj-device-ip', currentDevice.ip);
                                 } else {
-                                    localStorage.setItem('wdj-phone-name', '');
-                                    localStorage.setItem('wdj-device-ip', '');
+                                    localStorage.removeItem('wdj-phone-name', '');
+                                    localStorage.removeItem('wdj-device-ip', '');
                                 }
                             } else {
                                 clearAccountStorage();
