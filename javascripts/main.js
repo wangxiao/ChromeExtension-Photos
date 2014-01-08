@@ -16,12 +16,15 @@
         var chrome = window.chrome;
         if($(window).height()==340){
             window.localStorage.setItem('wdj-windows-isPanel', 'true');
-        };
+        }
 
         var renderList = function () {
             var photoListView = new PhotoListView();
             photoListView.renderAsync().done(function (photoListView) {
                 $('body').append(photoListView.$el);
+                setTimeout(function() {
+                    $('body').height(349);
+                });
             });
         };
         $('.w-ui-loading').show();
@@ -37,7 +40,7 @@
             if (resp) {
                 var deviceIp = window.localStorage.getItem('wdj-device-ip');
 
-                if (deviceIp && deviceIp != undefined) {
+                if (deviceIp) {
                     renderList.call(this);
                 } else {
                     chrome.extension.sendMessage({
@@ -50,13 +53,13 @@
                 var loginView = new LoginView();
 
                 loginView.renderAsync().done(function (loginView) {
-
+                    $('body').height(209);
                     $('body').append(loginView.$el);
                     window.localStorage.setItem('wdj-server-authCode','');
                     
                     //支持国际化，后期可以重构为前端模板
                     
-                    $('.sign-in-text').text(g("LOGIN_TEXT"));
+                    $('.sign-in-text').text(g('LOGIN_TEXT'));
 
                     $('.sign-in-button').click(function() {
                         chrome.extension.sendMessage({
