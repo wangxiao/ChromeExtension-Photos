@@ -179,7 +179,6 @@
                 break;
                 case 'isLogin':
                     var authCode = window.localStorage.getItem('wdj-google-token');
-
                     callback(authCode && authCode !== undefined ? true : false);              
                 break;
 

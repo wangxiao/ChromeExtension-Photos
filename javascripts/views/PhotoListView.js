@@ -61,27 +61,7 @@
                 });
             },
 
-            // mousedown : function (evt){
-
-            //     var url = this.model.get('path');
-
-            //     var orientation = this.model.get('orientation');
-            //     var w = this.model.get('thumbnail_width')*2;
-            //     var h = this.model.get('thumbnail_height')*2;
-            //     chrome.extension.sendMessage({
-            //         action : 'mousedown',
-            //         data:{
-            //             id : evt.target.id,
-            //             orientation : orientation,
-            //             width :w,
-            //             height:h,
-            //             url : url
-            //         }
-            //     });
-            // },
-
             events : {
-                //'mousedown' : 'mousedown',
                 'click' : 'clickItem'
             }
         });
