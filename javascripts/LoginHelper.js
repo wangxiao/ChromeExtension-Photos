@@ -48,6 +48,7 @@
                 return defer.promise();
             },
             logout : function () {
+                clearAccountStorage();
                 chrome.extension.sendMessage({
                     action : 'createTab',
                     data : i18n('SIGN_OUT_URL')
