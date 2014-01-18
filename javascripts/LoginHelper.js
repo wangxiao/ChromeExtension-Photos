@@ -33,6 +33,7 @@
                                     localStorage.setItem('wdj-server-authCode', currentDevice.authcode);
                                     localStorage.setItem('wdj-phone-name', currentDevice.model);
                                     localStorage.setItem('wdj-device-ip', currentDevice.ip);
+                                    
                                 } else {
                                     localStorage.removeItem('wdj-phone-name', '');
                                     localStorage.removeItem('wdj-device-ip', '');

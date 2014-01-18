@@ -13,6 +13,9 @@
     "CONNECT_PHONT_TEXT" : {
         "message" : "Checking phone connection..."
     },
+    "CONNECT_UNLIMITED_TEXT": {
+        "message": "In ConnectUnlimited is temporarily unavailableSnapPea Extension."
+    },
     "NO_PHOTOS_TEXT" : {
         "message" : "no photo"
     },
