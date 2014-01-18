@@ -29,19 +29,22 @@
                 }, 100);
             });
         };
-        $('.w-ui-loading').show();
-
+        $('.w-ui-loading').hide();
 
         chrome.extension.sendMessage({
             action : 'isLogin'
         }, function (resp) {
-            $('.w-ui-loading').hide();
+            // chromeExtension 打开时会有个检测容器高度的 bug
+            setTimeout(function() {
+                $('body').height(209);
+            }, 100);
+
             var g = chrome.i18n.getMessage;
             $('.connecting-phone').text(g('CONNECT_PHONT_TEXT'));
 
             if (resp) {
                 var deviceIp = window.localStorage.getItem('wdj-device-ip');
-
+                $('.w-ui-loading').show();
                 if (deviceIp) {
                     renderList.call(this);
                 } else {

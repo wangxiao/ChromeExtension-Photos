@@ -91,8 +91,7 @@
                 }
                 this.$('#photo-ctn').append(fragment);
                 if(isFirst && this.$('#photo-ctn').children().length === 0){
-                    $('#no-photo').text(i18n('NO_PHOTOS_TEXT'))
-                                  .show();
+                    $('#no-photo').text(i18n('NO_PHOTOS_TEXT')).show();
                     isFirst = false;
                 };
             },
